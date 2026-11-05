@@ -1,6 +1,6 @@
 ---
 title: "Rust SDK"
-description: "Install and configure the Sendmux Rust SDK crate."
+description: "Install and configure the Qubrics Rust SDK crate."
 keywords:
   [
     "Rust SDK",
@@ -8,7 +8,7 @@ keywords:
     "sendmux::sending",
     "sendmux::mailbox",
     "sendmux::management",
-    "Sendmux SDKs",
+    "Qubrics SDKs",
   ]
 ---
 
@@ -107,7 +107,7 @@ pub async fn send_welcome() -> sendmux::Result<()> {
         .send_email(&EmailSendRequest::new(
             Address::new("sender@example.com").with_name("Example App"),
             Address::new("user@example.com"),
-            "Welcome to Sendmux",
+            "Welcome to Qubrics",
             "<p>Hello from Rust.</p>",
         ))
         .await?;
