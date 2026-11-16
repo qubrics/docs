@@ -1,6 +1,6 @@
 # Docs #75: Qubrics rename
 
-Status: released npm/PHP facts and approved Skills Git-main names consumed on 10 November; not merged or published. All seven npm versions are measured, with no TBD remaining. Acceptance remains blocked by other producer qualifications and release gates; no production mutation performed.
+Status: 16 November live remeasurement finds three acceptance clauses unmet. The literal rename-announcement clause is already satisfied by two published 2 November entries; PR83's documentation-specific entry remains unpublished. PR83 remains unmerged; publication and redirect require separate Ops approval. Earlier producer observations below are historical, not additional current waits.
 Source baseline: `03210aa92d7a81e1ca207f0a35102172696a1f1c` (`origin/main`).
 Worktree: `/Users/rj/Desktop/GIT-REPOS/sendmux-docs-rebrand-qubrics-docs75`, branch `agent/rebrand-qubrics-docs75`.
 Remote verified as `https://github.com/qubrics/docs.git`; issue #75 assigned to `roshanjonah`.
@@ -14,6 +14,33 @@ PR [#78](https://github.com/qubrics/docs/pull/78) was read first and is OPEN at 
 Source changes rename display copy and app/sending/mail/A2A setup addresses, central site name/canonicals/support/GitHub destinations and brand assets. Existing tab/group order stays intact. One compatibility page follows quickstart; the rename entry stays in the navbar-only changelog. The old X account URL, published package names, binary/formula/plugin labels, API identifiers, SDK/MCP runtime defaults and source-owned generated facts remain unchanged until their owners qualify replacements. Downloadable Postman collection titles/defaults change through their owning generator; filenames and credential variable names remain exact, and no hosted workspace sync runs.
 
 Operator's 10 November direction requires the emblem only, with no wordmark. Both current header SVGs reuse existing ja-k8s `77c271c7ed2e46b301a65717221fa51baa765fe0:AAA-qubrics/brand/Logos/qubrics-icon.svg`, source blob `e2a2e20f2cd1f02d0e217cd63d21a63b385d5190` (only a final newline added). This is the matching blue geometric ten-tile Qubrics symbol, not the old circular SITE `emblem.svg`; it has no wordmark or embedded raster. `docs.json` points the favicon to the same emblem SVG. The earlier SITE `f383dca6` wordmarks are replaced; its symbol remains the provenance of the already emblem-only MailWizz diagram. Consent screenshot is cropped to the Product lines controls its caption describes, retaining all three surfaces, selections, permission controls and Authorise/Cancel. It contains no fabricated UI.
+
+## 16 November: live acceptance after SITE cutover
+
+Ops reports #901 P6 complete at 22:13 AEDT. Read-only HTTP measurements at 11:49–11:53 UTC independently confirm the docs target is available. This replaces the historical target-522 observations below. Raw headers, HTML, Markdown, redirect API responses and `measurements.log` are retained under MAIN `.claude/artifacts/rebrand-qubrics-docs75/live-remeasure-20261116/`.
+
+The following table measures each issue clause against published content. Counterexamples disprove the first two universal clauses; this is not an exhaustive passing crawl.
+
+| #75 acceptance box | Measured live evidence | Verdict |
+| --- | --- | --- |
+| No page says Sendmux except changelog and compatibility note | `https://qubrics.com/docs` and `https://sendmux.ai/docs` both return HTTP200 with title `Welcome to Sendmux - Sendmux`. The new-host canonical still points to `https://sendmux.ai/docs`. CLI, TypeScript SDK and Agent skills HTML titles also end in `- Sendmux`; `/docs/llms.txt` begins `# Sendmux`. | FAIL; not published from PR83. |
+| Every host, package, CLI command and install line matches the spec's new names | Live quickstart advertises `app.sendmux.ai` and `https://smtp.sendmux.ai/api/v1/emails/send`. Live CLI advertises `brew install sendmux/tap/sendmux` and `npm install -g @sendmux/cli`; TypeScript advertises `npm install @sendmux/sdk`; Agent skills advertises `/plugin install sendmux@sendmux`. Exact HTML and Markdown responses are retained. | FAIL; these advertised names differ from A5/A10/A12–A14. Accepted A17 legacy contract identifiers are not counted as failures. |
+| docs.qubrics.com redirect configured and lands on qubrics.com/docs | `https://docs.qubrics.com` returns HTTP522 with no Location. Authenticated GET confirms active qubrics.com zone `456f796588a2c18a670572a8fd5b0364`; its dynamic-redirect entrypoint returns HTTP404, error10003: `could not find entrypoint ruleset in the http_request_dynamic_redirect phase`. Control `https://docs.sendmux.ai` returns HTTP301 to `https://sendmux.ai/docs/`. | FAIL; the required Single Redirect is absent. Separate approval required. |
+| Changelog entry published | `https://qubrics.com/docs/changelog` and its Markdown return HTTP200. Two existing entries dated 2 November contain exact heading `Qubrics (formerly Sendmux)` and announce the app/email/API rename. PR83's distinct 5 November paragraph beginning `Documentation uses the Qubrics name and qubrics.com service addresses.` has zero occurrences. | PASS for the literal rename-announcement requirement; documentation-specific PR83 entry remains unpublished. |
+
+`/docs/getting-started/existing-integrations` returns HTTP404, consistent with PR83's compatibility page not being published. No public content was changed by this audit. Header/favicon changes remain the previously proved emblem-only candidate; no new visual or published-emblem qualification is claimed.
+
+Trace: the live titles, install lines and absent compatibility/documentation announcement match the still-unpublished rename boundary. Cloudflare's absent redirect entrypoint separately explains why docs.qubrics.com reaches an origin timeout rather than producing a redirect. No restart, retry change, DNS edit, hostname edit or consumer-side generated-contract rewrite was attempted.
+
+Fresh PR/release readback at 11:50–11:55 UTC: PR83 is OPEN, CLEAN/MERGEABLE at `780e2985bdf39588f5a137b3f9f3f48b423e8c86`. Actual main is `7b85e2556543d5ede4599f66d384d63964bd2c9d`; GitHub's PR base field still shows historical `c1bf0ee`, but merge preview `22feac5e81df32cbd0d96be744e8694edffafbba` has actual main and the PR head as parents. The five main-only commits affect only `changelog.mdx`. Existing head CI run42985780583 is SUCCESS and predates those commits; the merge preview has no fresh CI qualification. Zero formal reviews, review requests or inline threads; CodeRabbit remains excluded/SKIPPED with an inconclusive title comment, not an approval.
+
+Latest recorded successful main publication: deployment7780156113 at `7b85e2556543d5ede4599f66d384d63964bd2c9d`, status22168490610 SUCCESS at `2026-11-14T00:55:27Z`, target `https://sendmux.ai/docs`. Its metadata says staging/transient, production_environment:false; the production-filtered list is empty. This is a successful default-branch publication anchor, not a production-labelled receipt or independent proof of the live HTML's commit identity.
+
+Recommendation to Ops: merge/publish PR83 now, explicitly accepting renamed docs on both hosts before #902. A3 specifies docs independently; A16 couples A1/A2/A4/A7, not A3. This removes the measured mismatch on the already-live Qubrics site. Alternative: hold to the #902 window, accepting the current old docs in the meantime. Any final candidate must retain incoming main changelog entries and settle required checks/review before merge. Rollback: revert PR83's eventual merge on then-current main, preserving unrelated changes, and verify a successful restored publication against the named main anchor; do not reset main.
+
+Separate redirect item, still unapproved: after docs publication qualifies, request the HTTPS docs.qubrics.com path/query-preserving301 to qubrics.com/docs through Single Redirects. Baseline is the measured absent entrypoint; rollback disables only the newly added docs rule and verifies enabled:false, preserving any concurrent rules. No DNS, Custom Domain, hostname or SITE proxy change is included. #901 owns its post-publication SITE proxy recheck. #902 separately owns the legacy docs.sendmux.ai cutover.
+
+Polish pass: skipped — agent-only evidence excluded by `.mintignore`; published prose and assets unchanged.
 
 ## 11 November: update PR83 onto current main
 
@@ -117,7 +144,7 @@ Chrome Agent preview on localhost:3075 rendered the final CLI installer qualific
 
 The acceptance table below records the 5 November baseline. Its all-new-package 404 measurement is superseded by the seven-row table above; its target-host 522 measurements have not been rechecked by this source-only step. #901 owns target recovery and the post-publication SITE proxy check. All four #75 acceptance boxes stay open. Release order remains SDK #343, Skills #34, then #75; no merge, publication or redirect action occurred.
 
-## Acceptance readback
+## 5 November acceptance baseline (historical)
 
 | #75 requirement | Measured candidate evidence | Release status |
 | --- | --- | --- |
@@ -146,7 +173,7 @@ Local logs/screenshots: `.claude/artifacts/rebrand-qubrics-docs75/` in MAIN. Bul
 
 ## Publication and rollback boundary
 
-`README.md:45` says default-branch changes auto-deploy. GitHub deployment `7564973459` at baseline `03210aa92d7a81e1ca207f0a35102172696a1f1c` reports success to `https://sendmux.ai/docs`. Therefore merging this PR is itself publication and remains held for Ops approval.
+`README.md:45` says default-branch changes auto-deploy. The latest measured successful main publication is deployment `7780156113` at `7b85e2556543d5ede4599f66d384d63964bd2c9d`, status `22168490610` SUCCESS to `https://sendmux.ai/docs`; its staging/transient metadata caveat is recorded above. Live reads prove both hosts serve the same old docs naming. Merging this PR publishes renamed docs on both hosts and remains held for Ops approval.
 
 Named source rollback: revert this PR's merge commit on main and observe successful Mintlify deployment restoring baseline docs. If main advances first, retain the then-current successful publication as rollback anchor rather than overwriting unrelated work. No DNS, Custom Domain, hostname or SITE proxy setting changes are authorised.
 
@@ -160,6 +187,6 @@ Official canonical mechanism: [Cloudflare Single Redirects via API](https://deve
 
 Correctness: display rename is separate from retained contracts and unpublished producer names.
 Tests: five focused existing tests pass; no new harness or dependency.
-Journeys: local desktop/mobile docs inspected; public target522 prevents live acceptance.
-Status: coded, not merged, unpublished; all four acceptance boxes remain open.
-Parked: inherited Postman delegated-upload authentication/disabled-token behaviour, traced above. Producer releases/branding, PR78 release qualification, live target and publication/redirect approvals remain blockers.
+Journeys: prior local desktop/mobile proofs retained; 16 November public HTTP audit records three failed clauses and an existing live rename announcement. Documentation-specific PR83 announcement and compatibility page remain unpublished.
+Status: coded, not merged; PR83 unpublished. GitHub boxes left unchanged by the read-only audit. Ops decides merge now versus #902; redirect approval remains separate.
+Parked: inherited Postman delegated-upload authentication/disabled-token behaviour, traced above. No new work added.
