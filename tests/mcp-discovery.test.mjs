@@ -4,7 +4,7 @@ import { createServer } from 'node:http';
 import test from 'node:test';
 import { checkMcpDiscovery } from '../scripts/check-mcp-discovery.mjs';
 
-const metadata = { name: 'Sendmux', description: 'Hosted MCP server for authorised Sendmux Management, Mailbox, and Sending tools.', url: 'https://mcp.sendmux.ai/mcp' };
+const metadata = { name: 'Qubrics', description: 'Hosted MCP server for authorised Qubrics Management, Mailbox, and Sending tools.', url: 'https://mcp.qubrics.com/mcp' };
 
 async function serve(t, status, contentType, body) {
   const server = createServer((request, response) => {
