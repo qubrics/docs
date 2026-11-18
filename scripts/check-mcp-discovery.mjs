@@ -2,15 +2,15 @@
 import assert from 'node:assert/strict';
 import { pathToFileURL } from 'node:url';
 
-export async function checkMcpDiscovery(origin = 'https://sendmux.ai') {
+export async function checkMcpDiscovery(origin = 'https://qubrics.com') {
   const url = new URL('/.well-known/mcp.json', origin);
   const response = await fetch(url, { redirect: 'manual', signal: AbortSignal.timeout(15_000) });
   assert.equal(response.status, 200, `${url} must return HTTP 200, got ${response.status}`);
   assert.match(response.headers.get('content-type') ?? '', /application\/json/i, 'MCP discovery must serve application/json');
   const metadata = await response.json();
-  assert.equal(metadata.name, 'Sendmux', 'MCP discovery must identify Sendmux');
+  assert.equal(metadata.name, 'Qubrics', 'MCP discovery must identify Qubrics');
   assert.ok(typeof metadata.description === 'string' && metadata.description.trim(), 'MCP discovery needs a description');
-  assert.equal(metadata.url, 'https://mcp.sendmux.ai/mcp', 'MCP discovery must use the hosted endpoint');
+  assert.equal(metadata.url, 'https://mcp.qubrics.com/mcp', 'MCP discovery must use the hosted endpoint');
   return metadata;
 }
 
