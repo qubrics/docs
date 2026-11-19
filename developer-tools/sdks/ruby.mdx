@@ -5,8 +5,8 @@ keywords:
   [
     "Ruby SDK",
     "qubrics-core",
-    "sendmux-sending",
-    "sendmux-mailbox",
+    "qubrics-sending",
+    "qubrics-mailbox",
     "qubrics-management",
     "Qubrics SDKs",
   ]
@@ -27,16 +27,16 @@ Use the Ruby SDK when your application needs gems for the Sending, Mailbox, or M
 
 ## Install
 
-Install the gem for each API surface your application uses. These examples use `qubrics-management` 3.0.0, `sendmux-sending` 1.5.0 and `sendmux-mailbox` 2.0.2.
+Install a gem for each surface you use. These examples use `qubrics-sending` 2.0.0, `qubrics-mailbox` 3.0.0 and `qubrics-management` 3.0.0.
 
 <CodeGroup>
 
 ```bash Sending
-gem install sendmux-sending --version 1.5.0
+gem install qubrics-sending --version 2.0.0
 ```
 
 ```bash Mailbox
-gem install sendmux-mailbox --version 2.0.2
+gem install qubrics-mailbox --version 3.0.0
 ```
 
 ```bash Management
@@ -45,7 +45,7 @@ gem install qubrics-management --version 3.0.0
 
 </CodeGroup>
 
-Management uses the `Qubrics` namespace. The Sending and Mailbox versions above use `Sendmux`. Keep the gem version and namespace together. See [package names and imports](/developer-tools/sdks/versioning-support#package-names-and-imports) before changing an existing installation.
+Use the `Qubrics` namespace with these gem versions, and check [package names and imports](/developer-tools/sdks/versioning-support#package-names-and-imports) before changing an existing installation so your gem version and namespace stay together.
 
 ## OAuth access tokens
 
@@ -68,17 +68,17 @@ Require the surface gem you installed, then create its client.
 <CodeGroup>
 
 ```ruby Sending
-require 'sendmux/sending'
+require 'qubrics/sending'
 
-client = Sendmux::Sending::Client.new(
+client = Qubrics::Sending::Client.new(
   api_key: ENV.fetch('QUBRICS_MAILBOX_API_KEY')
 )
 ```
 
 ```ruby Mailbox
-require 'sendmux/mailbox'
+require 'qubrics/mailbox'
 
-client = Sendmux::Mailbox::Client.new(
+client = Qubrics::Mailbox::Client.new(
   api_key: ENV.fetch('QUBRICS_MAILBOX_API_KEY')
 )
 ```
@@ -93,14 +93,14 @@ client = Qubrics::Management::Client.new(
 
 </CodeGroup>
 
-Surface gems expose `Sendmux::Sending::Client`, `Sendmux::Mailbox::Client`, and `Qubrics::Management::Client` directly.
+Surface gems expose `Qubrics::Sending::Client`, `Qubrics::Mailbox::Client`, and `Qubrics::Management::Client` directly.
 
 ## Choose a surface
 
 | Surface | Gem | Client or helper | API key |
 | --- | --- | --- | --- |
-| Sending | `sendmux-sending` | `Sendmux::Sending::Client`, `client.emails` | `smx_mbx_` or owner-approved `smx_agent_` with `email.send` |
-| Mailbox | `sendmux-mailbox` | `Sendmux::Mailbox::Client`, `client.mailbox_api` | `smx_mbx_` or scoped `smx_agent_` |
+| Sending | `qubrics-sending` | `Qubrics::Sending::Client`, `client.emails` | `smx_mbx_` or owner-approved `smx_agent_` with `email.send` |
+| Mailbox | `qubrics-mailbox` | `Qubrics::Mailbox::Client`, `client.mailbox_api` | `smx_mbx_` or scoped `smx_agent_` |
 | Management | `qubrics-management` | `Qubrics::Management::Client`, `client.mailboxes` | `smx_root_` |
 
 <Note>
@@ -109,13 +109,13 @@ Surface gems expose `Sendmux::Sending::Client`, `Sendmux::Mailbox::Client`, and 
   exchange the durable token for a one-hour Sending-resource token before sending.
 </Note>
 
-Management 3.0.0 uses `https://app.qubrics.com/api/v1` by default. The Sending and Mailbox versions above default to `https://smtp.sendmux.ai/api/v1` and `https://app.sendmux.ai/api/v1`, respectively.
+Sending 2.0.0 defaults to `https://smtp.qubrics.com/api/v1`. Mailbox 3.0.0 and Management 3.0.0 default to `https://app.qubrics.com/api/v1`.
 
 ## Shared API behaviour
 
 Surface clients validate API key prefixes, configure bearer auth, and map generated API errors.
 
-The helper examples below use `qubrics-core` 2.0.0, installed with Management 3.0.0. The Sending and Mailbox versions above use `Sendmux::Core` helpers.
+The helper examples below use `qubrics-core` 2.0.0, installed with these surface gems.
 
 ### Pagination
 
@@ -123,9 +123,9 @@ List responses use cursor pagination with `pagination.has_more` and `pagination.
 
 ### Retries and rate limits
 
-Management clients call `Qubrics::Core::Retry.configure()` by default. Retries apply to safe methods and retry-safe `POST` requests that include `Idempotency-Key`, then honour `Retry-After` and `X-RateLimit-Reset` response headers.
+Surface clients call `Qubrics::Core::Retry.configure()` by default. Retries apply to safe methods and retry-safe `POST` requests that include `Idempotency-Key`, then honour `Retry-After` and `X-RateLimit-Reset` response headers.
 
-Pass `Qubrics::Core::RetryOptions` into a Management client to change attempts, delays, or jitter.
+Pass `Qubrics::Core::RetryOptions` into a surface client to change attempts, delays, or jitter.
 
 ### Idempotency and ETags
 
@@ -140,7 +140,7 @@ Use `Idempotency-Key` for retry-safe mutating requests. Use `If-Match` and `If-N
 
 ### Errors
 
-Management API errors are mapped to `Qubrics::Core::ApiError`. The Sending and Mailbox versions above use `Sendmux::Core::ApiError`. The error includes status, code, retryability, request ID, param, nested errors, response body, and response headers when available.
+API errors are mapped to `Qubrics::Core::ApiError`. The error includes status, code, retryability, request ID, param, nested errors, response body, and response headers when available.
 
 Use the request ID when contacting support.
 
@@ -154,7 +154,7 @@ Use the request ID when contacting support.
     Check compatibility, support, and upgrade guidance.
   </Card>
   <Card title="Sending API" icon="paper-plane" href="/sending-api/introduction">
-    Review the Sending API contract used by `sendmux-sending`.
+    Review the Sending API contract used by `qubrics-sending`.
   </Card>
   <Card title="API keys" icon="key" href="/account/api-keys">
     Create and scope the credentials used by SDK clients.
