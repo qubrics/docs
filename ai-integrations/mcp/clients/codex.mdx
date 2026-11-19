@@ -19,14 +19,14 @@ https://mcp.qubrics.com/mcp
 Add this to `~/.codex/config.toml` or a trusted project `.codex/config.toml`.
 
 ```toml
-[mcp_servers.sendmux]
+[mcp_servers.qubrics]
 url = "https://mcp.qubrics.com/mcp"
 ```
 
 Then authenticate:
 
 ```bash
-codex mcp login sendmux
+codex mcp login qubrics
 ```
 
 ## Local stdio
@@ -54,7 +54,7 @@ export QUBRICS_ROOT_KEY=smx_root_...
 Run Codex with `QUBRICS_API_KEY` already set, then use `env_vars` so the value stays outside the config file.
 
 ```toml
-[mcp_servers.sendmux_mailbox]
+[mcp_servers.qubrics_mailbox]
 command = "sendmux-mcp-mailbox"
 env_vars = ["QUBRICS_API_KEY"]
 ```
@@ -73,7 +73,7 @@ sendmux-mcp-mailbox --transport http --host 127.0.0.1 --port 8765
 Use `http://127.0.0.1:8765/mcp` as the client URL.
 
 ```toml
-[mcp_servers.sendmux_local]
+[mcp_servers.qubrics_local]
 url = "http://127.0.0.1:8765/mcp"
 bearer_token_env_var = "QUBRICS_MCP_HTTP_BEARER_TOKEN"
 ```

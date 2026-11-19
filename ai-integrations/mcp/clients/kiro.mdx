@@ -21,7 +21,7 @@ Add this to `.kiro/settings/mcp.json` for one workspace or `~/.kiro/settings/mcp
 ```json
 {
   "mcpServers": {
-    "sendmux": {
+    "qubrics": {
       "url": "https://mcp.qubrics.com/mcp",
       "disabled": false
     }
@@ -58,7 +58,7 @@ Add this to `.kiro/settings/mcp.json` or `~/.kiro/settings/mcp.json`.
 ```json
 {
   "mcpServers": {
-    "sendmux-mailbox": {
+    "qubrics-mailbox": {
       "command": "sendmux-mcp-mailbox",
       "args": [],
       "env": {
@@ -85,7 +85,7 @@ Use `http://127.0.0.1:8765/mcp` as the client URL.
 ```json
 {
   "mcpServers": {
-    "sendmux-local": {
+    "qubrics-local": {
       "url": "http://127.0.0.1:8765/mcp",
       "headers": {
         "Authorization": "Bearer local-mcp-token"

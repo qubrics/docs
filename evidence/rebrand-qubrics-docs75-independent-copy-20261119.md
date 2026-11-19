@@ -1,0 +1,21 @@
+# Qubrics sample labels and support address
+
+Scope: [#1081](https://github.com/qubrics/qubrics/issues/1081), [#1096](https://github.com/qubrics/qubrics/issues/1096), [#1097](https://github.com/qubrics/qubrics/issues/1097), within docs #75. Baseline `2aed0f9a3438a28f526b70843308085a13984c5e`.
+
+65 exact substitutions across 23 existing MDX pages: one Atlassian support address, 50 client-example labels and 14 framework-example labels. User-chosen connection names and matching login/auth commands agree; VS Code input references and IDs agree; Google ADK's local variable references agree. Canonical support address comes from `docs.json`'s existing `mailto:contact@qubrics.com`.
+
+Package/import/binary names, real MCP tool names, protocol/environment/secret identifiers (including `COPILOT_MCP_SENDMUX_MCP_TOKEN`), protected release facts, service addresses and routes retain their original bytes. These sample names have no release dependency. No rebrand announcement or banner added.
+
+Placement: existing AI integrations / frameworks and MCP client pages; keep. Reader task and navigation unchanged. Polish skipped: exact technical-token and mailto corrections only. Original-to-after substitution-only assertion passes: every other byte equals baseline. `git diff --check`, confidentiality, external-link safety, `mint validate` and `mint broken-links` pass. No new tests or dependencies; existing CI remains the complete tooling gate. Raw checks and preview receipts: docs MAIN `.claude/artifacts/rebrand-qubrics-docs75/independent-copy-*`.
+
+PR78 review: OPEN/DIRTY at `944a2a2c`; recommendation rebase/narrow, not merge or close as-is. All 59 PR-changed OpenAPI/collection JSON leaves already match current main (App 12, Sending 31, Management collection 1, Sending collection 15). Preserve newer producer-synchronised snapshots and published SDK facts. Remaining release-specific MCP/SDK assertions require SDK344's measured public producer qualification. Full review: docs MAIN `.claude/artifacts/rebrand-qubrics-docs75/PR78-OVERLAP-REVIEW-20261119.md`.
+
+Corpus before this slice: 291 case-insensitive occurrences across 44 of 89 eligible source files, excluding SDK/CLI pages, changelog, drafts and internal evidence. After these 65 corrections, 226 remain classified: 92 compatibility tokens, 119 SDK/MCP producer/package/default facts, 2 actual Google picker labels held on #932, 12 existing public destinations/asset names and the retained Copilot secret reference. No unguarded ordinary visible branding remains in that audit corpus. Screenshots and external public destinations are not renamed by this slice.
+
+Native publishing proof: minimal source push `2aed0f9`, Docs CI `44513600054` and Mintlify Deployment SUCCESS. Eight direct GETs from `sendmux.mintlify.dev/docs` and `qubrics.com/docs` at 11:20:17–23Z all return 200. Index/full/sitemap each contain 218/218 unique canonical documentation records; robots Sitemap is `https://qubrics.com/docs/sitemap.xml`; all eight complete bodies have zero fallback host and zero doubled `/docs`. Receipt: docs MAIN `.claude/artifacts/rebrand-qubrics-docs75/ORIGIN-REBUILD-PUSH-RECEIPT-20261119.md`.
+
+Rendered proof: all 23 changed local preview pages returned 200 and contained their expected corrected tokens; zero missing tokens. Chrome Agent confirmed the Atlassian support link renders and its href is `mailto:contact@qubrics.com`; no page errors (only the local preview connection warning). Preview used IPv6 localhost:3000, separately from the pre-existing IPv4 listener, and did not touch that listener. Owned preview/tab closed after checks; regenerable preview cache removed after shutdown.
+
+Status: branch/PR preparation; not yet merged or published. Publication requires Ops ASK; rollback is revert the eventual normal merge, preserving unrelated main. Live proof after native publish must cover each ticket's ordinary page/export response and all 23 changed pages, with main and `/docs` healthy. Keep read-only T-47269 checks; never Re-verify. No CNAME, DNS, domain, Worker or routing changes.
+
+Parked for operator: whether Worker sitemap/LLMS rewriting remains needed now origin output is canonical. SDK344 release facts and #932 consent/picker labels remain separate acceptance blockers, not claims made here.

@@ -17,7 +17,7 @@ https://mcp.qubrics.com/mcp
 ```
 
 ```bash
-claude mcp add sendmux --transport http https://mcp.qubrics.com/mcp
+claude mcp add qubrics --transport http https://mcp.qubrics.com/mcp
 ```
 
 Use `/mcp` in Claude Code if the server is listed as requiring authentication.
@@ -45,7 +45,7 @@ export QUBRICS_ROOT_KEY=smx_root_...
 ```
 
 ```bash
-claude mcp add sendmux-mailbox \
+claude mcp add qubrics-mailbox \
   --transport stdio \
   --env QUBRICS_API_KEY="$QUBRICS_MBX_KEY" \
   -- sendmux-mcp-mailbox
@@ -64,7 +64,7 @@ sendmux-mcp-mailbox --transport http --host 127.0.0.1 --port 8765
 Use `http://127.0.0.1:8765/mcp` as the client URL.
 
 ```bash
-claude mcp add sendmux-local \
+claude mcp add qubrics-local \
   --transport http \
   --header "Authorization: Bearer local-mcp-token" \
   http://127.0.0.1:8765/mcp

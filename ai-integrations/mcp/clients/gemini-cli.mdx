@@ -21,7 +21,7 @@ Add this to your Gemini CLI `settings.json`.
 ```json
 {
   "mcpServers": {
-    "sendmux": {
+    "qubrics": {
       "httpUrl": "https://mcp.qubrics.com/mcp",
       "trust": false
     }
@@ -29,7 +29,7 @@ Add this to your Gemini CLI `settings.json`.
 }
 ```
 
-Then run `/mcp auth sendmux` inside Gemini CLI.
+Then run `/mcp auth qubrics` inside Gemini CLI.
 
 ## Local stdio
 
@@ -58,7 +58,7 @@ Add this to Gemini CLI `settings.json`.
 ```json
 {
   "mcpServers": {
-    "sendmux-mailbox": {
+    "qubrics-mailbox": {
       "command": "sendmux-mcp-mailbox",
       "env": {
         "QUBRICS_API_KEY": "$QUBRICS_MBX_KEY"
@@ -84,7 +84,7 @@ Use `http://127.0.0.1:8765/mcp` as the client URL.
 ```json
 {
   "mcpServers": {
-    "sendmux-local": {
+    "qubrics-local": {
       "httpUrl": "http://127.0.0.1:8765/mcp",
       "headers": {
         "Authorization": "Bearer local-mcp-token"

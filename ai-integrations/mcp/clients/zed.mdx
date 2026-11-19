@@ -21,7 +21,7 @@ Add this to Zed settings.
 ```json
 {
   "context_servers": {
-    "sendmux": {
+    "qubrics": {
       "url": "https://mcp.qubrics.com/mcp"
     }
   }
@@ -57,7 +57,7 @@ Add this to Zed settings.
 ```json
 {
   "context_servers": {
-    "sendmux-mailbox": {
+    "qubrics-mailbox": {
       "command": "sendmux-mcp-mailbox",
       "args": [],
       "env": {
@@ -83,7 +83,7 @@ Use `http://127.0.0.1:8765/mcp` as the client URL.
 ```json
 {
   "context_servers": {
-    "sendmux-local": {
+    "qubrics-local": {
       "url": "http://127.0.0.1:8765/mcp",
       "headers": {
         "Authorization": "Bearer local-mcp-token"

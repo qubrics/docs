@@ -21,7 +21,7 @@ Add this to `.cursor/mcp.json` for one project or `~/.cursor/mcp.json` for all p
 ```json
 {
   "mcpServers": {
-    "sendmux": {
+    "qubrics": {
       "url": "https://mcp.qubrics.com/mcp"
     }
   }
@@ -55,7 +55,7 @@ export QUBRICS_ROOT_KEY=smx_root_...
 ```json
 {
   "mcpServers": {
-    "sendmux-mailbox": {
+    "qubrics-mailbox": {
       "type": "stdio",
       "command": "sendmux-mcp-mailbox",
       "env": {
@@ -81,7 +81,7 @@ Use `http://127.0.0.1:8765/mcp` as the client URL.
 ```json
 {
   "mcpServers": {
-    "sendmux-local": {
+    "qubrics-local": {
       "url": "http://127.0.0.1:8765/mcp",
       "headers": {
         "Authorization": "Bearer local-mcp-token"
