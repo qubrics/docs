@@ -34,7 +34,7 @@ Doc Search MCP exposes `search_sendmux`.
 <AccordionGroup>
   <Accordion title="Claude Code">
     ```bash
-    claude mcp add sendmux-docs --transport http https://qubrics.com/docs/mcp
+    claude mcp add qubrics-docs --transport http https://qubrics.com/docs/mcp
     ```
   </Accordion>
 
@@ -44,7 +44,7 @@ Doc Search MCP exposes `search_sendmux`.
     ```json
     {
       "mcpServers": {
-        "sendmux-docs": {
+        "qubrics-docs": {
           "url": "https://qubrics.com/docs/mcp"
         }
       }
@@ -58,7 +58,7 @@ Doc Search MCP exposes `search_sendmux`.
     ```json
     {
       "servers": {
-        "sendmux-docs": {
+        "qubrics-docs": {
           "type": "http",
           "url": "https://qubrics.com/docs/mcp"
         }
@@ -71,7 +71,7 @@ Doc Search MCP exposes `search_sendmux`.
     Add this server to `~/.codex/config.toml` or a trusted project `.codex/config.toml`.
 
     ```toml
-    [mcp_servers.sendmux_docs]
+    [mcp_servers.qubrics_docs]
     url = "https://qubrics.com/docs/mcp"
     ```
   </Accordion>
@@ -142,7 +142,7 @@ The bridge connects stdio clients to the hosted server through browser OAuth. To
 ```json
 {
   "mcpServers": {
-    "sendmux": {
+    "qubrics": {
       "command": "npx",
       "args": ["-y", "sendmux-mcp"]
     }
