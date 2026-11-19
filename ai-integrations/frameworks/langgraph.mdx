@@ -43,7 +43,7 @@ from langchain_mcp_adapters.client import MultiServerMCPClient
 
 client = MultiServerMCPClient(
     {
-        "sendmux": {
+        "qubrics": {
             "transport": "stdio",
             "command": "sendmux-mcp-mailbox",
             "args": [],
@@ -56,7 +56,7 @@ client = MultiServerMCPClient(
 Run more than one surface by switching to the `sendmux-mcp` entry point and naming the surfaces:
 
 ```python
-"sendmux": {
+"qubrics": {
     "transport": "stdio",
     "command": "sendmux-mcp",
     "args": [],
@@ -85,7 +85,7 @@ from langchain_mcp_adapters.client import MultiServerMCPClient
 
 client = MultiServerMCPClient(
     {
-        "sendmux": {
+        "qubrics": {
             "transport": "streamable_http",
             "url": "http://127.0.0.1:8765/mcp",
             "headers": {"Authorization": "Bearer local-mcp-token"},
@@ -141,7 +141,7 @@ Mailbox-scoped keys are the isolation boundary. Build a client per tenant rather
 def client_for(mailbox_key: str) -> MultiServerMCPClient:
     return MultiServerMCPClient(
         {
-            "sendmux": {
+            "qubrics": {
                 "transport": "stdio",
                 "command": "sendmux-mcp-mailbox",
                 "args": [],

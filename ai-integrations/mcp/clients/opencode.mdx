@@ -22,7 +22,7 @@ Add this to `opencode.json`.
 {
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
-    "sendmux": {
+    "qubrics": {
       "type": "remote",
       "url": "https://mcp.qubrics.com/mcp",
       "enabled": true
@@ -34,7 +34,7 @@ Add this to `opencode.json`.
 Authenticate when prompted, or run:
 
 ```bash
-opencode mcp auth sendmux
+opencode mcp auth qubrics
 ```
 
 ## Local stdio
@@ -65,7 +65,7 @@ Add this to `opencode.json`.
 {
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
-    "sendmux-mailbox": {
+    "qubrics-mailbox": {
       "type": "local",
       "command": ["sendmux-mcp-mailbox"],
       "environment": {
@@ -93,7 +93,7 @@ Use `http://127.0.0.1:8765/mcp` as the client URL.
 {
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
-    "sendmux-local": {
+    "qubrics-local": {
       "type": "remote",
       "url": "http://127.0.0.1:8765/mcp",
       "oauth": false,

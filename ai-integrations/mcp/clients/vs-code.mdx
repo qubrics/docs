@@ -35,18 +35,18 @@ Use an input variable so the key is not stored directly in `.vscode/mcp.json`.
 ```json
 {
   "servers": {
-    "sendmux-mailbox": {
+    "qubrics-mailbox": {
       "type": "stdio",
       "command": "sendmux-mcp-mailbox",
       "env": {
-        "QUBRICS_API_KEY": "${input:sendmux-mailbox-key}"
+        "QUBRICS_API_KEY": "${input:qubrics-mailbox-key}"
       }
     }
   },
   "inputs": [
     {
       "type": "promptString",
-      "id": "sendmux-mailbox-key",
+      "id": "qubrics-mailbox-key",
       "description": "Qubrics mailbox API key",
       "password": true
     }
@@ -69,18 +69,18 @@ Use `http://127.0.0.1:8765/mcp` as the client URL.
 ```json
 {
   "servers": {
-    "sendmux-local": {
+    "qubrics-local": {
       "type": "http",
       "url": "http://127.0.0.1:8765/mcp",
       "headers": {
-        "Authorization": "Bearer ${input:sendmux-mcp-token}"
+        "Authorization": "Bearer ${input:qubrics-mcp-token}"
       }
     }
   },
   "inputs": [
     {
       "type": "promptString",
-      "id": "sendmux-mcp-token",
+      "id": "qubrics-mcp-token",
       "description": "Qubrics local MCP bearer token",
       "password": true
     }

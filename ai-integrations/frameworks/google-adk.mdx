@@ -46,7 +46,7 @@ from google.adk.agents import LlmAgent
 from google.adk.tools.mcp_tool.mcp_toolset import McpToolset
 from mcp import StdioServerParameters
 
-sendmux_toolset = McpToolset(
+qubrics_toolset = McpToolset(
     connection_params=StdioServerParameters(
         command="sendmux-mcp-mailbox",
         args=[],
@@ -60,7 +60,7 @@ root_agent = LlmAgent(
         "You triage the mailbox you have been granted. "
         "Search before you read, and quote the message you acted on."
     ),
-    tools=[sendmux_toolset],
+    tools=[qubrics_toolset],
 )
 ```
 
@@ -96,7 +96,7 @@ import os
 from google.adk.tools.mcp_tool.mcp_session_manager import StreamableHTTPConnectionParams
 from google.adk.tools.mcp_tool.mcp_toolset import McpToolset
 
-sendmux_toolset = McpToolset(
+qubrics_toolset = McpToolset(
     connection_params=StreamableHTTPConnectionParams(
         url="http://127.0.0.1:8765/mcp",
         headers={
@@ -111,7 +111,7 @@ sendmux_toolset = McpToolset(
 `tool_filter` limits the toolset to named tools. A triage agent that never sends is safer than one that could.
 
 ```python
-sendmux_toolset = McpToolset(
+qubrics_toolset = McpToolset(
     connection_params=StdioServerParameters(
         command="sendmux-mcp-mailbox",
         args=[],

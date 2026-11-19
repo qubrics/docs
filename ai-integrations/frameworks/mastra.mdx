@@ -50,9 +50,9 @@ Mastra launches the server as a child process and passes your key through the pr
 import { MCPClient } from "@mastra/mcp";
 
 export const mcpClient = new MCPClient({
-  id: "sendmux",
+  id: "qubrics",
   servers: {
-    sendmux: {
+    qubrics: {
       command: "sendmux-mcp-mailbox",
       args: [],
       env: {
@@ -66,7 +66,7 @@ export const mcpClient = new MCPClient({
 Run more than one surface in a single server by using the `sendmux-mcp` entry point instead:
 
 ```typescript
-sendmux: {
+qubrics: {
   command: "sendmux-mcp",
   args: [],
   env: {
@@ -93,9 +93,9 @@ Then point `MCPClient` at it and send the bearer token on every request:
 import { MCPClient } from "@mastra/mcp";
 
 export const mcpClient = new MCPClient({
-  id: "sendmux",
+  id: "qubrics",
   servers: {
-    sendmux: {
+    qubrics: {
       url: new URL("http://127.0.0.1:8765/mcp"),
       requestInit: {
         headers: {
@@ -136,7 +136,7 @@ import { MCPClient } from "@mastra/mcp";
 
 const mcp = new MCPClient({
   servers: {
-    sendmux: {
+    qubrics: {
       command: "sendmux-mcp-mailbox",
       args: [],
       env: { QUBRICS_API_KEY: tenantMailboxKey },

@@ -21,7 +21,7 @@ Add this to `.qwen/settings.json` for one project or `~/.qwen/settings.json` for
 ```json
 {
   "mcpServers": {
-    "sendmux": {
+    "qubrics": {
       "httpUrl": "https://mcp.qubrics.com/mcp",
       "trust": false
     }
@@ -58,7 +58,7 @@ Add this to `.qwen/settings.json` or `~/.qwen/settings.json`.
 ```json
 {
   "mcpServers": {
-    "sendmux-mailbox": {
+    "qubrics-mailbox": {
       "command": "sendmux-mcp-mailbox",
       "env": {
         "QUBRICS_API_KEY": "$QUBRICS_MBX_KEY"
@@ -84,7 +84,7 @@ Use `http://127.0.0.1:8765/mcp` as the client URL.
 ```json
 {
   "mcpServers": {
-    "sendmux-local": {
+    "qubrics-local": {
       "httpUrl": "http://127.0.0.1:8765/mcp",
       "headers": {
         "Authorization": "Bearer local-mcp-token"
