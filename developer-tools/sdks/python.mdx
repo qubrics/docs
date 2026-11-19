@@ -4,10 +4,10 @@ description: "Install and configure the Qubrics Python SDK packages."
 keywords:
   [
     "Python SDK",
-    "sendmux-sdk",
-    "sendmux-sending",
-    "sendmux-mailbox",
-    "sendmux-management",
+    "qubrics-core",
+    "qubrics-sending",
+    "qubrics-mailbox",
+    "qubrics-management",
     "Qubrics SDKs",
   ]
 ---
@@ -27,27 +27,25 @@ Use the Python SDK when your application needs Qubrics API clients with API-key 
 
 ## Install
 
-Install the umbrella package when one application needs more than one API surface.
+Install the package for each API surface your application uses. The examples below use Sending 2.0.0, Mailbox 3.0.0 and Management 3.0.0.
 
 <CodeGroup>
 
-```bash Umbrella
-pip install sendmux-sdk
-```
-
 ```bash Sending
-pip install sendmux-sending
+pip install qubrics-sending==2.0.0
 ```
 
 ```bash Mailbox
-pip install sendmux-mailbox
+pip install qubrics-mailbox==3.0.0
 ```
 
 ```bash Management
-pip install sendmux-management
+pip install qubrics-management==3.0.0
 ```
 
 </CodeGroup>
+
+Use the `qubrics` imports shown below. The final old-name distributions install their replacements without providing the old import paths. See [package names and imports](/developer-tools/sdks/versioning-support#package-names-and-imports).
 
 ## OAuth access tokens
 
@@ -55,7 +53,7 @@ Set `access_token` to a bare token string or callable. Do not also set `api_key`
 
 ```python
 import os
-from sendmux_mailbox import create_mailbox_client
+from qubrics.mailbox import create_mailbox_client
 
 client = create_mailbox_client(
     access_token=lambda: os.environ["QUBRICS_ACCESS_TOKEN"],
@@ -68,33 +66,33 @@ The `langchain-sendmux` wrapper accepts the same `access_token` option in `Sendm
 
 ## Create a client
 
-The umbrella package lazy-loads `sending`, `mailbox`, and `management` modules.
+Import the factory from the surface package you installed.
 
 <CodeGroup>
 
 ```python Sending
 import os
-from sendmux_sdk import sending
+from qubrics.sending import create_sending_client
 
-client = sending.create_sending_client(
+client = create_sending_client(
     api_key=os.environ["QUBRICS_MAILBOX_API_KEY"],
 )
 ```
 
 ```python Mailbox
 import os
-from sendmux_sdk import mailbox
+from qubrics.mailbox import create_mailbox_client
 
-client = mailbox.create_mailbox_client(
+client = create_mailbox_client(
     api_key=os.environ["QUBRICS_MAILBOX_API_KEY"],
 )
 ```
 
 ```python Management
 import os
-from sendmux_sdk import management
+from qubrics.management import create_management_client
 
-client = management.create_management_client(
+client = create_management_client(
     api_key=os.environ["QUBRICS_ROOT_API_KEY"],
 )
 ```
@@ -107,9 +105,9 @@ Surface packages expose `create_sending_client`, `create_mailbox_client`, and `c
 
 | Surface | Package | Factory | API key |
 | --- | --- | --- | --- |
-| Sending | `sendmux-sending` | `create_sending_client` | `smx_mbx_` or owner-approved `smx_agent_` with `email.send` |
-| Mailbox | `sendmux-mailbox` | `create_mailbox_client` | `smx_mbx_` or scoped `smx_agent_` |
-| Management | `sendmux-management` | `create_management_client` | `smx_root_` |
+| Sending | `qubrics-sending` | `create_sending_client` | `smx_mbx_` or owner-approved `smx_agent_` with `email.send` |
+| Mailbox | `qubrics-mailbox` | `create_mailbox_client` | `smx_mbx_` or scoped `smx_agent_` |
+| Management | `qubrics-management` | `create_management_client` | `smx_root_` |
 
 <Note>
   Durable `smx_agent_` tokens are mailbox-compatible and include `mailbox.read`
@@ -117,7 +115,7 @@ Surface packages expose `create_sending_client`, `create_mailbox_client`, and `c
   exchange the durable token for a one-hour Sending-resource token before sending.
 </Note>
 
-Sending uses `https://smtp.sendmux.ai/api/v1` by default. Mailbox and Management use `https://app.sendmux.ai/api/v1`.
+Sending uses `https://smtp.qubrics.com/api/v1` by default. Mailbox and Management use `https://app.qubrics.com/api/v1`.
 
 ## Shared API behaviour
 
@@ -138,7 +136,7 @@ Pass `RetryOptions` into a client factory to change attempts, delays, or sleep b
 Use core header helpers when a generated operation accepts custom headers.
 
 ```python
-from sendmux_core import conditional_headers, idempotency_headers
+from qubrics.core import conditional_headers, idempotency_headers
 
 headers = {
     **idempotency_headers("order-123"),
@@ -150,7 +148,7 @@ Use `Idempotency-Key` for retry-safe mutating requests. Use `If-Match` and `If-N
 
 ### Errors
 
-Generated client exceptions are mapped to `SendmuxApiError`. The error carries the API error code, retryability, request ID, status, headers, and raw body when available.
+Generated client exceptions are mapped to `QubricsApiError`. The error carries the API error code, retryability, request ID, status, headers, and raw body when available.
 
 Use `error.retryable` and `error.request_id` when deciding whether to retry or contact support.
 
@@ -164,7 +162,7 @@ Use `error.retryable` and `error.request_id` when deciding whether to retry or c
     Check compatibility, support, and upgrade guidance.
   </Card>
   <Card title="Mailbox API" icon="inbox" href="/mailbox-api/introduction">
-    Review the Mailbox API contract used by `sendmux-mailbox`.
+    Review the Mailbox API contract used by `qubrics-mailbox`.
   </Card>
   <Card title="API keys" icon="key" href="/account/api-keys">
     Create and scope the credentials used by SDK clients.
