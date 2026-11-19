@@ -95,6 +95,23 @@ The app, account emails and API descriptions use the Qubrics name. Your existing
 
 </Update>
 
+<Update label="2 November 2026" tags={["Improvements"]} rss={{ title: "Qubrics integration names with lasting compatibility" }}>
+  ## Improvements
+
+You can configure integrations with `QUBRICS_*` settings and use `X-Qubrics-*` headers or `qubrics_` MCP tool names. Existing `SENDMUX_*` settings, `X-Sendmux-*` headers and MCP tool names remain supported indefinitely.
+
+You can keep your supported `sendmux-core` version when using Qubrics settings with the Python Sending SDK.
+
+Empty `QUBRICS_*` settings use matching `SENDMUX_*` values. Your existing PHP and Ruby delegated-upload calls and Go upload-token fields keep working. Python webhook models keep `qubrics_message_id` absent when omitted and preserve explicit `null` values.
+
+Newly emitted mail webhook payloads include both `qubrics_message_id` and `sendmux_message_id`. Their values match and can be null. Your integration must also accept older retained payloads and deliveries queued before this release with only `sendmux_message_id`.
+
+Delegated attachment uploads accept `X-Qubrics-Upload-Token` or `X-Sendmux-Upload-Token`. The upload intent returns both headers with the same token. If you send both headers, their values must match after trimming whitespace, even if one is blank.
+
+Webhook requests use `User-Agent: Qubrics-Webhooks/1.0`. Update your allowlist if it filters on the previous `Sendmux-Webhooks/1.0` value.
+
+</Update>
+
 <Update label="31 October 2026" tags={["New features", "Bug fixes"]} rss={{ title: "Weekly reconnect notices and mailbox deletion recovery" }}>
   ## Weekly sending account reconnect digest
 
