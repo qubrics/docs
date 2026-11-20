@@ -27,6 +27,12 @@ Use the Ruby SDK when your application needs gems for the Sending, Mailbox, or M
 
 ## Install
 
+Install `qubrics-sdk` 3.0.0 for all three API surfaces, or choose separate surface gems:
+
+```bash
+gem install qubrics-sdk --version 3.0.0
+```
+
 Install a gem for each surface you use. These examples use `qubrics-sending` 2.0.0, `qubrics-mailbox` 3.0.0 and `qubrics-management` 3.0.0.
 
 <CodeGroup>
@@ -64,6 +70,8 @@ The provider runs before each request. Your application owns secure token storag
 ## Create a client
 
 Require the surface gem you installed, then create its client.
+
+If you installed the umbrella gem, use `require 'qubrics/sdk'` to load all three surface clients.
 
 <CodeGroup>
 
