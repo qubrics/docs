@@ -23,8 +23,14 @@ No status-provider, hostname, DNS, Worker or routing change.
   Native preview Card is div.card with no href attribute; popup arrives
   asynchronously. Its earlier null attribute/immediate empty popup list
   were measurement assumptions, not navigation failures.
-- No test added for three literal destinations; CI runs existing tooling
-  and contract tests. No package/compatibility identifier or prose change.
+- No test added for three literal destinations. First CI44704872018
+  passed48/49; sole failure is the existing status-link expectation at
+  tests/docs-accuracy.test.mjs32 pinning the old host. Live canonical/status
+  evidence above and docs#75 settle the required new destination. The
+  unchanged focused test reproduces ERR_ASSERTION, then passes1/1 after
+  correcting its expected host; no assertion removed or relaxed. Existing
+  tooling/contract suite remains CI-owned. No package/compatibility or
+  prose change.
 - Placement, card copy, icon, navigation and ordering unchanged. Polish
   pass skipped: exact technical-token correction only.
 
