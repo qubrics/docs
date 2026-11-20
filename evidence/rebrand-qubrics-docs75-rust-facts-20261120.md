@@ -64,7 +64,8 @@ links, code structure, prerequisites and verified facts are preserved.
 - Read-only preservation comparison: Rust guide equals the exact approved
   token map; compatibility-prefix occurrences match the base across all
   three pages. No new tests for static token corrections; full tooling
-  tests remain CI-owned. No existing assertions or tests changed.
+  tests remain CI-owned. Existing Rust expectations require the released
+  crate/version/module tokens, with the rest of that coverage intact.
 - Independent standards and spec reviews: zero findings on each axis.
 
 Raw logs, screenshot and support-check receipt: docs MAIN
@@ -74,3 +75,16 @@ no support send, Re-verify or provider change.
 
 Status: local candidate verified; PR/CI and separate merge/publication gate
 remain. No whole-goal completion claimed.
+
+CI root cause: run `44699097681` fails only the existing Rust docs test at
+`tests/docs-accuracy.test.mjs:47`, which still requires `/cargo add sendmux/`
+and the old namespaces/pre-1.0 statement. A focused local invocation
+`node --test --test-name-pattern='documents the Rust SDK' tests/docs-accuracy.test.mjs`
+reproduces the exact `ERR_ASSERTION` before the fix. The verified public
+archive disproves every obsolete expected token. Update those assertions
+to the exact public install/version/module facts; preserve the remaining
+checks. No assertion is removed or loosened. Raw red receipt:
+`stale-rust-test-red.log` alongside the complete CI failure log.
+The same focused invocation then passes 1/1 with zero skipped after the
+correction (`stale-rust-test-green.log`). No shipped MDX changed after its
+successful preview/validation, so those receipts still apply.

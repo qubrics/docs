@@ -44,11 +44,11 @@ test("documents the Rust SDK as one crate with three API modules", async () => {
   ]);
 
   assert.match(rust, /title: "Rust SDK"/);
-  assert.match(rust, /cargo add sendmux/);
+  assert.match(rust, /cargo add qubrics@1\.0\.0/);
   assert.match(rust, /Rust 1\.82 or newer/);
-  assert.match(rust, /sendmux::sending/);
-  assert.match(rust, /sendmux::mailbox/);
-  assert.match(rust, /sendmux::management/);
+  assert.match(rust, /qubrics::sending/);
+  assert.match(rust, /qubrics::mailbox/);
+  assert.match(rust, /qubrics::management/);
   assert.match(rust, /Sending has typed request and response models/);
   assert.match(
     rust,
@@ -56,17 +56,17 @@ test("documents the Rust SDK as one crate with three API modules", async () => {
   );
   assert.match(rust, /EmailSendRequest::new/);
   assert.match(rust, /response\.request_id\(\)/);
-  assert.match(rust, /sendmux::Error::Api/);
+  assert.match(rust, /qubrics::Error::Api/);
   assert.match(rust, /error\.request_id/);
 
   assert.match(index, /"Rust"/);
   assert.match(
     index,
-    /\| Rust \| `sendmux` \| `sending`, `mailbox`, and `management` modules inside the `sendmux` crate \|/,
+    /\| Rust \| `qubrics` \| `sending`, `mailbox`, and `management` modules inside the `qubrics` crate \|/,
   );
   assert.match(
     versioning,
-    /Rust crate is pre-1\.0 on `0\.x` and can introduce breaking changes between minor versions/,
+    /\| crates\.io \| `qubrics` \| `1\.0\.0` \| `qubrics::sending`, `qubrics::mailbox`, `qubrics::management` \|/,
   );
 
   const sdkGroup = docsConfig.navigation.tabs
