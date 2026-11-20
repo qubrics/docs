@@ -45,7 +45,10 @@ test("documents the Rust SDK as one crate with three API modules", async () => {
 
   assert.match(rust, /title: "Rust SDK"/);
   assert.match(rust, /cargo add qubrics@1\.0\.0/);
-  assert.match(rust, /Rust 1\.82 or newer/);
+  assert.match(
+    rust,
+    /Rust 1\.82 requires a compatible application `Cargo\.lock`\. Use stable Rust for fresh installs\./,
+  );
   assert.match(rust, /qubrics::sending/);
   assert.match(rust, /qubrics::mailbox/);
   assert.match(rust, /qubrics::management/);
