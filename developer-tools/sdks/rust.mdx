@@ -4,10 +4,10 @@ description: "Install and configure the Qubrics Rust SDK crate."
 keywords:
   [
     "Rust SDK",
-    "sendmux crate",
-    "sendmux::sending",
-    "sendmux::mailbox",
-    "sendmux::management",
+    "qubrics crate",
+    "qubrics::sending",
+    "qubrics::mailbox",
+    "qubrics::management",
     "Qubrics SDKs",
   ]
 ---
@@ -31,7 +31,7 @@ Use the Rust SDK when your application needs clients for the Sending, Mailbox, o
 The Rust SDK is one crate with three surface modules.
 
 ```bash
-cargo add sendmux
+cargo add qubrics@1.0.0
 ```
 
 ## OAuth access tokens
@@ -39,9 +39,9 @@ cargo add sendmux
 Use `new_with_access_token` for a bare token or `new_with_token_provider` for an asynchronous provider.
 
 ```rust
-use sendmux::mailbox::MailboxClient;
+use qubrics::mailbox::MailboxClient;
 
-fn oauth_client() -> sendmux::Result<MailboxClient> {
+fn oauth_client() -> qubrics::Result<MailboxClient> {
     MailboxClient::new_with_token_provider(|| async {
         Ok(std::env::var("QUBRICS_ACCESS_TOKEN")
             .expect("QUBRICS_ACCESS_TOKEN is required"))
@@ -53,14 +53,14 @@ The provider runs before each request. Your application owns secure token storag
 
 ## Create a client
 
-Import the surface client from the `sendmux` crate.
+Import the surface client from the `qubrics` crate.
 
 <CodeGroup>
 
 ```rust Sending
-use sendmux::sending::SendingClient;
+use qubrics::sending::SendingClient;
 
-fn sending_client() -> sendmux::Result<SendingClient> {
+fn sending_client() -> qubrics::Result<SendingClient> {
     SendingClient::new(
         std::env::var("QUBRICS_MAILBOX_API_KEY")
             .expect("QUBRICS_MAILBOX_API_KEY is required"),
@@ -69,9 +69,9 @@ fn sending_client() -> sendmux::Result<SendingClient> {
 ```
 
 ```rust Mailbox
-use sendmux::mailbox::MailboxClient;
+use qubrics::mailbox::MailboxClient;
 
-fn mailbox_client() -> sendmux::Result<MailboxClient> {
+fn mailbox_client() -> qubrics::Result<MailboxClient> {
     MailboxClient::new(
         std::env::var("QUBRICS_MAILBOX_API_KEY")
             .expect("QUBRICS_MAILBOX_API_KEY is required"),
@@ -80,9 +80,9 @@ fn mailbox_client() -> sendmux::Result<MailboxClient> {
 ```
 
 ```rust Management
-use sendmux::management::ManagementClient;
+use qubrics::management::ManagementClient;
 
-fn management_client() -> sendmux::Result<ManagementClient> {
+fn management_client() -> qubrics::Result<ManagementClient> {
     ManagementClient::new(
         std::env::var("QUBRICS_ROOT_API_KEY")
             .expect("QUBRICS_ROOT_API_KEY is required"),
@@ -95,9 +95,9 @@ fn management_client() -> sendmux::Result<ManagementClient> {
 Call this async function from your application to send a message.
 
 ```rust
-use sendmux::sending::{Address, EmailSendRequest, SendingClient};
+use qubrics::sending::{Address, EmailSendRequest, SendingClient};
 
-pub async fn send_welcome() -> sendmux::Result<()> {
+pub async fn send_welcome() -> qubrics::Result<()> {
     let client = SendingClient::new(
         std::env::var("QUBRICS_MAILBOX_API_KEY")
             .expect("QUBRICS_MAILBOX_API_KEY is required"),
@@ -125,15 +125,15 @@ pub async fn send_welcome() -> sendmux::Result<()> {
 
 | Surface | Module | Client or helper | API key |
 | --- | --- | --- | --- |
-| Sending | `sendmux::sending` | `SendingClient`, `sendmux::sending` | `smx_mbx_` or owner-approved `smx_agent_` with `email.send` |
-| Mailbox | `sendmux::mailbox` | `MailboxClient`, `sendmux::mailbox` | `smx_mbx_` or scoped `smx_agent_` |
-| Management | `sendmux::management` | `ManagementClient`, `sendmux::management` | `smx_root_` |
+| Sending | `qubrics::sending` | `SendingClient`, `qubrics::sending` | `smx_mbx_` or owner-approved `smx_agent_` with `email.send` |
+| Mailbox | `qubrics::mailbox` | `MailboxClient`, `qubrics::mailbox` | `smx_mbx_` or scoped `smx_agent_` |
+| Management | `qubrics::management` | `ManagementClient`, `qubrics::management` | `smx_root_` |
 
 <Note>
-  `sending`, `mailbox`, and `management` are modules inside the `sendmux` crate. They are not separate installable crates.
+  `sending`, `mailbox`, and `management` are modules inside the `qubrics` crate. They are not separate installable crates.
 </Note>
 
-Sending uses `https://smtp.sendmux.ai/api/v1` by default. Mailbox and Management use `https://app.sendmux.ai/api/v1`.
+Sending uses `https://smtp.qubrics.com/api/v1` by default. Mailbox and Management use `https://app.qubrics.com/api/v1`.
 
 ## Shared API behaviour
 
@@ -149,14 +149,14 @@ Mailbox and Management list helpers return paginated data as JSON. Read `paginat
 
 ### Retries and rate limits
 
-The crate sends each request once. When `sendmux::Error::Api` reports `retryable` as `true`, follow the API retry guidance before sending the request again.
+The crate sends each request once. When `qubrics::Error::Api` reports `retryable` as `true`, follow the API retry guidance before sending the request again.
 
 ### Idempotency and ETags
 
 Use `RequestOptions` when an operation accepts optional header values.
 
 ```rust
-use sendmux::core::RequestOptions;
+use qubrics::core::RequestOptions;
 
 let send_options = RequestOptions::new().idempotency_key("order-123");
 let update_options = RequestOptions::new().if_match(etag);
@@ -168,23 +168,23 @@ Use `Idempotency-Key` for retry-safe mutating requests. Use `If-Match` and `If-N
 
 ### Errors
 
-SDK methods return `sendmux::Result<Response<T>>`. API failures map to `sendmux::Error::Api` with the status, machine-readable code, retryable flag, raw response body, and request ID when available.
+SDK methods return `qubrics::Result<Response<T>>`. API failures map to `qubrics::Error::Api` with the status, machine-readable code, retryable flag, raw response body, and request ID when available.
 
 ```rust
-use sendmux::sending::{EmailSendRequest, SendingClient};
+use qubrics::sending::{EmailSendRequest, SendingClient};
 
 pub async fn send_and_report(
     client: &SendingClient,
     request: &EmailSendRequest,
-) -> sendmux::Result<()> {
+) -> qubrics::Result<()> {
     match client.send_email(request).await {
         Ok(response) => {
             println!("request id: {}", response.request_id());
             Ok(())
         }
-        Err(sendmux::Error::Api(error)) => {
+        Err(qubrics::Error::Api(error)) => {
             eprintln!("{} {:?}", error.message, error.request_id);
-            Err(sendmux::Error::Api(error))
+            Err(qubrics::Error::Api(error))
         }
         Err(error) => Err(error),
     }
@@ -203,7 +203,7 @@ Keep the request ID when contacting support.
     Check compatibility, support, and upgrade guidance.
   </Card>
   <Card title="Management API" icon="chart-line" href="/api/introduction">
-    Review the Management API contract used by `sendmux::management`.
+    Review the Management API contract used by `qubrics::management`.
   </Card>
   <Card title="API keys" icon="key" href="/account/api-keys">
     Create and scope the credentials used by SDK clients.
