@@ -16,7 +16,7 @@ SDK packages track the public Qubrics API contracts. A package update can be lim
 
 ## Versioning model
 
-- SDK packages can use different major versions. The Rust crate is pre-1.0 on `0.x` and can introduce breaking changes between minor versions.
+- SDK packages can use different major versions.
 - Patch versions can differ between packages.
 - Generated clients are built from the same public API contracts used by the API reference.
 - API contract changes update the relevant SDK output in the same package release.
@@ -46,6 +46,7 @@ Keep the package version and import path together. Installing an old-name distri
 | RubyGems | `sendmux-mailbox` | `3.0.0` | `qubrics/mailbox` |
 | RubyGems | `qubrics-management` | `3.0.0` | `qubrics/management` |
 | RubyGems | `sendmux-management` | `3.0.0` | `qubrics/management` |
+| crates.io | `qubrics` | `1.0.0` | `qubrics::sending`, `qubrics::mailbox`, `qubrics::management` |
 
 Use the language guides for client examples. Each release covers one package. Check the version and namespace for every language, umbrella package or related developer tool you use.
 
