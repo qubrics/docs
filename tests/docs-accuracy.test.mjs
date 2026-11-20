@@ -29,7 +29,7 @@ test("links service status from each relevant troubleshooting page", async () =>
     const page = await readDocsFile(path);
     assert.match(
       page,
-      /<Card title="Service status" icon="chart-line" href="https:\/\/status\.qubrics\.com">/,
+      /<Card title="Service status" icon="chart-line" href="https:\/\/status\.sendmux\.ai">/,
       path,
     );
   }
