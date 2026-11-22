@@ -22,9 +22,12 @@ The same obsolete local package/console names appeared in 26 client/framework
 pages. Those pages receive 94 exact technical-token corrections, including 23
 install lines pinned to `qubrics-mcp==3.0.0`. Eight old SEO keywords remain, each
 beside the canonical keyword. An exact-transform assertion proved every other
-byte unchanged: tool IDs, environment names, headers, aliases and framework
-dependency installs are preserved. The MCP overview and package-version table
-consume the same verified facts.
+byte unchanged in that mechanical pass: tool IDs, environment names, headers,
+aliases and framework dependency installs are preserved. Review then identified
+missing install prerequisites in the GitHub Copilot coding-agent page and its
+LM Studio sibling. Both now install the same pinned package before starting the
+server, with the existing upgrade-safety snippet. The MCP overview and
+package-version table consume the same verified facts.
 
 ## Measured sources
 
@@ -68,7 +71,10 @@ MAIN `.claude/artifacts/rebrand-qubrics-docs75/mcp-public-facts-20261122/`.
   Full tooling suite belongs to PR CI, not a repeated local full run.
 - Native local preview: MCP overview, version table, Codex client and Google
   ADK framework pages return 200 and render the intended package/console
-  tokens. Local and Registry accordions expand with distinct facts.
+  tokens. Local and Registry accordions expand with distinct facts. After the
+  prerequisite review fix, GitHub Copilot coding-agent and LM Studio pages also
+  return 200 and render the install before the console command; their changed
+  MDX imports pass native validation, link and confidentiality checks.
   A same-call accessibility snapshot raced the accordion's fragment navigation;
   Playwriter `executor.js:1005` rejects a changed document generation.
   Separate action/read calls prove the opened content and unchanged base URL.
