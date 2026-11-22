@@ -4,16 +4,22 @@ description: "Configure Qubrics MCP in LM Studio."
 keywords: ["LM Studio","MCP client","Qubrics MCP","MCP setup"]
 ---
 
+import McpUpgradeSafety from "/snippets/mcp-upgrade-safety.mdx";
+
 Use this page to connect Qubrics MCP to your AI client.
 
 ## Private HTTP
 
+<McpUpgradeSafety />
+
 Start a local HTTP MCP server:
 
 ```bash
+pip install --upgrade qubrics-mcp==3.0.0
+
 QUBRICS_API_KEY=smx_mbx_... \
 QUBRICS_MCP_HTTP_BEARER_TOKEN=local-mcp-token \
-sendmux-mcp-mailbox --transport http --host 127.0.0.1 --port 8765
+qubrics-mcp-mailbox --transport http --host 127.0.0.1 --port 8765
 ```
 
 Use `http://127.0.0.1:8765/mcp` as the client URL.

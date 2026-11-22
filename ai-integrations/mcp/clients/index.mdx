@@ -6,6 +6,7 @@ keywords:
   [
     "MCP clients",
     "sendmux-mcp",
+    "qubrics-mcp",
     "Claude Code",
     "Cursor",
     "Codex",
@@ -36,7 +37,7 @@ Use this page to connect Qubrics MCP to your AI client. Prefer hosted OAuth when
     Use this for Atlassian, Claude, Cursor, Codex, Gemini CLI, Qwen Code, Kiro, OpenCode, Zed, Visual Studio, Hoot, and ChatGPT.
   </Card>
   <Card title="Local stdio" icon="terminal" href="#local-stdio-clients">
-    Use this when your client can launch `sendmux-mcp` on your machine.
+    Use this when your client can launch `qubrics-mcp` on your machine.
   </Card>
   <Card title="Private HTTP" icon="network-wired" iconType="solid" href="#private-http-clients">
     Use this when your client needs a URL or runs outside your laptop.
@@ -99,7 +100,7 @@ https://mcp.qubrics.com/mcp
 Install the local package once:
 
 ```bash
-pip install --upgrade sendmux-mcp
+pip install --upgrade qubrics-mcp==3.0.0
 ```
 
 Use a mailbox key for Mailbox or Sending:
@@ -121,7 +122,7 @@ Start a local HTTP MCP server:
 ```bash
 QUBRICS_API_KEY=smx_mbx_... \
 QUBRICS_MCP_HTTP_BEARER_TOKEN=local-mcp-token \
-sendmux-mcp-mailbox --transport http --host 127.0.0.1 --port 8765
+qubrics-mcp-mailbox --transport http --host 127.0.0.1 --port 8765
 ```
 
 Use `http://127.0.0.1:8765/mcp` as the client URL.

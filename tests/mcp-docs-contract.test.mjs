@@ -4,15 +4,18 @@ import { cpSync, existsSync, mkdtempSync, mkdirSync, readFileSync, rmSync, write
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import test from "node:test";
+import { createHash } from "node:crypto";
 import { changedRenderedFields, checkContract, renderSnippet } from "../scripts/check-mcp-docs-contract.mjs";
 
 const candidate = process.env.SENDMUX_SDK_CHECKOUT;
 if (!candidate) throw new Error("SENDMUX_SDK_CHECKOUT must name the pinned SDK checkout used by fixture tests");
 const checker = resolve("scripts/check-mcp-docs-contract.mjs");
-const owned = ["scripts/check-mcp.mjs", "packages/python/mcp/pyproject.toml", "packages/python/mcp/server.json", "packages/python/mcp/sendmux_mcp/mcp-contract.json", "packages/ts/mcp/package.json"];
+const owned = ["scripts/check-mcp.mjs", "packages/python/mcp/pyproject.toml", "packages/python/mcp/server.json", "packages/python/mcp/qubrics/mcp/mcp-contract.json", "packages/ts/mcp/package.json"];
 const readJson = (path) => JSON.parse(readFileSync(path, "utf8"));
 const writeJson = (path, value) => writeFileSync(path, `${JSON.stringify(value, null, 2)}\n`);
 const fixtureRoots = new Set();
+const published = JSON.parse(readFileSync(resolve("scripts/mcp-docs-publications.json"), "utf8"));
+const registrySnapshot = readFileSync(resolve("scripts/mcp-docs-registry.json"));
 const assertFixture = (root) => {
   assert.ok(fixtureRoots.has(root) && root.startsWith(`${resolve(tmpdir())}/mcp-docs-contract-`), "Git mutation must stay in an owned temporary fixture");
 };
@@ -35,19 +38,46 @@ function fixture(t, label) {
   return { root, pin: commit(root, "fixture") };
 }
 
-function docsFixture(t, label, pin, snippet) {
+function docsFixture(t, label, pin, snippet, publications = published) {
   const root = mkdtempSync(join(tmpdir(), `mcp-docs-cli-${label}-`));
   process.stderr.write(`# fixture-owned cli-${label} ${root}\n`);
   t.after(() => { rmSync(root, { recursive: true, force: true }); assert.equal(existsSync(root), false, `CLI fixture absent: ${label}`); });
   mkdirSync(join(root, "scripts"), { recursive: true }); mkdirSync(join(root, "snippets"), { recursive: true });
   writeJson(join(root, "scripts/mcp-docs-sdk.json"), { commit: pin }); writeFileSync(join(root, "snippets/mcp-release-facts.mdx"), snippet);
+  writeJson(join(root, "scripts/mcp-docs-publications.json"), publications);
+  writeFileSync(join(root, "scripts/mcp-docs-registry.json"), registrySnapshot);
   return root;
+}
+
+function publicationsFor(root) {
+  const facts = structuredClone(published);
+  const { package: pkg } = readJson(join(root, owned[3]));
+  const npm = readJson(join(root, owned[4]));
+  Object.assign(facts.python, { identity: pkg.identity, version: pkg.version, sourceUrl: `https://pypi.org/pypi/${pkg.identity}/${pkg.version}/json` });
+  Object.assign(facts.npm, { identity: npm.name, version: npm.version, sourceUrl: `https://registry.npmjs.org/${npm.name}/${npm.version}` });
+  return facts;
 }
 
 const runCliArgs = (cwd, args, env = {}) => spawnSync(process.execPath, [checker, ...args], { cwd, encoding: "utf8", env: { ...process.env, ...env } });
 const runCli = (cwd, sdkDir, mode) => runCliArgs(cwd, [mode, "--sdk", sdkDir]);
 
-test("projection shows independent npm, PyPI, and registry versions", async (t) => {
+test("released Python facts stay independent of Registry bindings and hosted visibility", async (t) => {
+  const sdk = fixture(t, "publications");
+  const result = await checkContract({ sdkDir: sdk.root, pin: sdk.pin, publications: published });
+  assert.equal(result.projection.identity, "qubrics-mcp");
+  assert.equal(result.projection.version, "3.0.0");
+  assert.equal(result.projection.npmVersion, "1.0.1");
+  assert.equal(result.projection.registryVersion, "2.2.0");
+  assert.equal(result.projection.registryPythonVersion, "2.2.0");
+  assert.equal(result.projection.registryNpmVersion, "1.0.0");
+  assert.equal(result.projection.resource, "https://mcp.qubrics.com/mcp");
+  assert.equal(result.projection.toolCount, 130);
+  const snippet = renderSnippet(result.projection);
+  assert.match(snippet, /Local Python package/);
+  assert.doesNotMatch(snippet, /Hosted tool count|Hosted transport|Certified protocol versions/);
+});
+
+test("published npm releases stay independent of PyPI and candidate Registry metadata", async (t) => {
   const sdk = fixture(t, "independent-versions");
   const before = await checkContract({ sdkDir: sdk.root, pin: sdk.pin });
   const npmPackage = readJson(join(sdk.root, owned[4]));
@@ -61,9 +91,53 @@ test("projection shows independent npm, PyPI, and registry versions", async (t) 
   registry.packages.find((entry) => entry.registryType === "npm").version = npmPackage.version;
   writeJson(join(sdk.root, owned[4]), npmPackage);
   writeJson(join(sdk.root, owned[2]), registry);
-  const after = await checkContract({ sdkDir: sdk.root, pin: commit(sdk.root, "npm and metadata release") });
-  assert.deepEqual(changedRenderedFields(renderSnippet(before.projection), renderSnippet(after.projection)), ["npm.version", "registry.version"]);
+  const pin = commit(sdk.root, "npm and candidate metadata release");
+  const after = await checkContract({ sdkDir: sdk.root, pin, publications: publicationsFor(sdk.root) });
+  assert.deepEqual(changedRenderedFields(renderSnippet(before.projection), renderSnippet(after.projection)), ["npm.version"]);
+  assert.equal(after.projection.registryVersion, before.projection.registryVersion, "candidate metadata does not update the public Registry listing");
   assert.equal(after.projection.version, before.projection.version, "PyPI remains unchanged by npm and registry releases");
+});
+
+test("rejects unpublished or mismatched package facts at the public contract seam", async (t) => {
+  for (const [label, mutate, error] of [
+    ["unpublished-python", (root) => { coherentVersionChange(root); }, /published Python version/],
+    ["unpublished-npm", (root) => { const npm = readJson(join(root, owned[4])); npm.version = "1.0.2"; writeJson(join(root, owned[4]), npm); }, /published npm version/],
+    ["python-identity", (_root, facts) => { facts.python.identity = "sendmux-mcp"; }, /published Python identity/],
+    ["npm-release-url", (_root, facts) => { facts.npm.sourceUrl = "https://registry.npmjs.org/qubrics-mcp/1.0.1"; }, /npm sourceUrl/],
+    ["python-release-url", (_root, facts) => { facts.python.sourceUrl = "https://pypi.org/pypi/qubrics-mcp/2.2.0/json"; }, /Python sourceUrl/],
+  ]) {
+    await t.test(label, async (t) => {
+      const sdk = fixture(t, label); const facts = structuredClone(published); mutate(sdk.root, facts);
+      const pin = label.startsWith("unpublished-") ? commit(sdk.root, label) : sdk.pin;
+      await assert.rejects(checkContract({ sdkDir: sdk.root, pin, publications: facts }), error);
+    });
+  }
+});
+
+test("rejects tampered Registry snapshots and unqualified Registry bindings", async (t) => {
+  for (const [label, mutate, rehash, error] of [
+    ["tampered-bytes", (record) => { record.server.packages[0].version = "1.0.1"; }, false, /Registry snapshot SHA256/],
+    ["wrong-binding", (record) => { record.server.packages[0].version = "1.0.1"; }, true, /Registry npm binding/],
+    ["inactive-record", (record) => { record._meta["io.modelcontextprotocol.registry/official"].status = "deleted"; }, true, /Registry status must be active/],
+    ["not-latest", (record) => { record._meta["io.modelcontextprotocol.registry/official"].isLatest = false; }, true, /Registry record must be latest/],
+  ]) {
+    await t.test(label, async (t) => {
+      const sdk = fixture(t, label); const record = JSON.parse(registrySnapshot); mutate(record);
+      const snapshot = Buffer.from(`${JSON.stringify(record)}\n`); const facts = structuredClone(published);
+      if (rehash) facts.registry.snapshotSha256 = createHash("sha256").update(snapshot).digest("hex");
+      await assert.rejects(checkContract({ sdkDir: sdk.root, pin: sdk.pin, publications: facts, registrySnapshot: snapshot }), error);
+    });
+  }
+});
+
+test("public CLI rejects tampered Registry provenance before writing", async (t) => {
+  const sdk = fixture(t, "cli-registry-tamper"); const sentinel = "STALE_SENTINEL\n";
+  const docs = docsFixture(t, "registry-tamper", sdk.pin, sentinel);
+  writeFileSync(join(docs, "scripts/mcp-docs-registry.json"), `${registrySnapshot}\n`);
+  const run = runCli(docs, sdk.root, "--write");
+  assert.notEqual(run.status, 0);
+  assert.match(run.stderr, /Registry snapshot SHA256/);
+  assert.equal(readFileSync(join(docs, "snippets/mcp-release-facts.mdx"), "utf8"), sentinel);
 });
 
 function coherentVersionChange(root, version) {
@@ -129,8 +203,8 @@ test("field-specific drift reports version, protocol sets, and count independent
     if (field === "protocols") { contract.protocols.push(date); contract.runtime_protocols.push(date); }
     if (field === "runtime_protocols") contract.runtime_protocols.push(date);
     if (field === "tools.count") { contract.tools.by_surface.mailbox.push({ ...structuredClone(contract.tools.by_surface.mailbox[0]), name: "fixture_future_tool" }); contract.tools.count += 1; }
-    writeJson(join(sdk.root, owned[3]), contract); const pin = commit(sdk.root, field); const current = renderSnippet((await checkContract({ sdkDir: sdk.root, pin })).projection); const expected = field === "protocols" ? ["protocols", "runtime_protocols"] : [field]; assert.deepEqual(changedRenderedFields(oldSnippet, current), expected);
-    const docs = docsFixture(t, `drift-${field.replaceAll(".", "-")}`, pin, oldSnippet); const run = runCli(docs, sdk.root, "--check"); assert.notEqual(run.status, 0); assert.match(run.stderr, new RegExp(`changed fields: ${expected.join(", ")}$`, "m"));
+    writeJson(join(sdk.root, owned[3]), contract); const pin = commit(sdk.root, field); const facts = publicationsFor(sdk.root); const current = renderSnippet((await checkContract({ sdkDir: sdk.root, pin, publications: facts })).projection); const expected = field === "protocols" ? ["protocols", "runtime_protocols"] : [field]; assert.deepEqual(changedRenderedFields(oldSnippet, current), expected);
+    const docs = docsFixture(t, `drift-${field.replaceAll(".", "-")}`, pin, oldSnippet, facts); const run = runCli(docs, sdk.root, "--check"); assert.notEqual(run.status, 0); assert.match(run.stderr, new RegExp(`changed fields: ${expected.join(", ")}$`, "m"));
   }
 });
 
@@ -147,7 +221,7 @@ test("accepts ordinary, future, prerelease, and build SemVer forms", async (t) =
   for (const version of ["2.0.0", "3.1.4-alpha.1", "3.1.4+build.01", "3.1.4-rc.1+build.5"]) {
     await t.test(version, async (t) => {
       const sdk = fixture(t, `semver-valid-${version.replaceAll(/[^0-9A-Za-z]+/g, "-")}`); coherentVersionChange(sdk.root, version); const pin = commit(sdk.root, version);
-      assert.equal((await checkContract({ sdkDir: sdk.root, pin })).contract.package.version, version);
+      assert.equal((await checkContract({ sdkDir: sdk.root, pin, publications: publicationsFor(sdk.root) })).contract.package.version, version);
     });
   }
 });

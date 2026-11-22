@@ -38,7 +38,7 @@ Kiro opens the browser OAuth flow when the hosted server asks for authorisation.
 Install the local package once:
 
 ```bash
-pip install --upgrade sendmux-mcp
+pip install --upgrade qubrics-mcp==3.0.0
 ```
 
 Use a mailbox key for Mailbox or Sending:
@@ -59,7 +59,7 @@ Add this to `.kiro/settings/mcp.json` or `~/.kiro/settings/mcp.json`.
 {
   "mcpServers": {
     "qubrics-mailbox": {
-      "command": "sendmux-mcp-mailbox",
+      "command": "qubrics-mcp-mailbox",
       "args": [],
       "env": {
         "QUBRICS_API_KEY": "${QUBRICS_MBX_KEY}"
@@ -77,7 +77,7 @@ Start a local HTTP MCP server:
 ```bash
 QUBRICS_API_KEY=smx_mbx_... \
 QUBRICS_MCP_HTTP_BEARER_TOKEN=local-mcp-token \
-sendmux-mcp-mailbox --transport http --host 127.0.0.1 --port 8765
+qubrics-mcp-mailbox --transport http --host 127.0.0.1 --port 8765
 ```
 
 Use `http://127.0.0.1:8765/mcp` as the client URL.

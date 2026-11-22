@@ -1,21 +1,44 @@
-<Info>
-  PyPI package: `sendmux-mcp`
+<AccordionGroup>
+  <Accordion title="Local Python package">
+    Local Python package: `qubrics-mcp`
 
-  PyPI version: `2.1.3`
+    Local Python version: `3.0.0`
 
-  npm package: `sendmux-mcp`
+    Compatibility PyPI package: `sendmux-mcp` `3.0.0`
 
-  npm version: `1.0.0`
+    Declared local tool count: 130
 
-  Registry metadata version: `2.1.4`
+    Local protocol declarations: `2025-11-25`, `2026-07-28`
 
-  Hosted resource: `https://mcp.sendmux.ai/mcp`
+    Local runtime protocol declarations: `2024-11-05`, `2025-03-26`, `2025-06-18`, `2025-11-25`, `2026-07-28`
 
-  Hosted transport: Streamable HTTP
+    These declarations describe the published local package. They do not verify hosted tools, protocol support or certification.
+  </Accordion>
+  <Accordion title="npm bridge">
+    npm package: `sendmux-mcp`
 
-  Curated tool count: 54
+    npm version: `1.0.1`
 
-  Certified protocol versions: `2025-11-25`, `2026-07-28`
+    This package bridges to the legacy hosted connection.
+  </Accordion>
+  <Accordion title="MCP Registry listing">
+    Registry identity: `io.github.Sendmux/sendmux-mcp`
 
-  Runtime-accepted protocol versions: `2024-11-05`, `2025-03-26`, `2025-06-18`, `2025-11-25`, `2026-07-28`. Runtime acceptance provides compatibility; it does not certify each version.
-</Info>
+    Registry metadata version: `2.2.0`
+
+    Registry PyPI binding: `sendmux-mcp` `2.2.0`
+
+    Registry npm binding: `sendmux-mcp` `1.0.0`
+
+    The published listing retains these package bindings independently of newer package releases.
+  </Accordion>
+  <Accordion title="Hosted connection">
+    Hosted resource: `https://mcp.qubrics.com/mcp`
+
+    Observed OAuth resource metadata: `https://mcp.qubrics.com/.well-known/oauth-protected-resource/mcp`
+
+    Advertised authorisation servers: `https://app.sendmux.ai`, `https://app.qubrics.com`
+
+    Public discovery returned HTTP 401 for an unauthenticated initialize request and HTTP 200 for resource metadata. Authenticated tools and protocol support remain unverified.
+  </Accordion>
+</AccordionGroup>

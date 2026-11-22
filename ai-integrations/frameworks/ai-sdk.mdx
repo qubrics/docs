@@ -8,6 +8,7 @@ keywords:
     "createMCPClient",
     "generateText",
     "sendmux-mcp",
+    "qubrics-mcp",
   ]
 ---
 
@@ -37,7 +38,7 @@ npm install ai @ai-sdk/mcp
 ```
 
 ```bash Qubrics MCP
-pip install --upgrade sendmux-mcp
+pip install --upgrade qubrics-mcp==3.0.0
 ```
 
 </CodeGroup>
@@ -49,7 +50,7 @@ HTTP is the better fit for most AI SDK deployments, because serverless and edge 
 ```bash
 QUBRICS_API_KEY=smx_mbx_... \
 QUBRICS_MCP_HTTP_BEARER_TOKEN=local-mcp-token \
-sendmux-mcp-mailbox --transport http --host 127.0.0.1 --port 8765
+qubrics-mcp-mailbox --transport http --host 127.0.0.1 --port 8765
 ```
 
 Then connect and send the bearer token on every request:
@@ -78,7 +79,7 @@ import { Experimental_StdioMCPTransport } from "@ai-sdk/mcp/mcp-stdio";
 
 const mcpClient = await createMCPClient({
   transport: new Experimental_StdioMCPTransport({
-    command: "sendmux-mcp-mailbox",
+    command: "qubrics-mcp-mailbox",
     args: [],
     env: { QUBRICS_API_KEY: process.env.QUBRICS_MAILBOX_API_KEY! },
   }),
@@ -154,7 +155,7 @@ A durable `smx_agent_` token includes `mailbox.read` and `email.receive`, not `e
 
 <AccordionGroup>
   <Accordion title="tools() returns nothing">
-    Confirm the surfaces the server started with. `sendmux-mcp` requires
+    Confirm the surfaces the server started with. `qubrics-mcp` requires
     `QUBRICS_MCP_SURFACES`; the single-surface entry points do not.
   </Accordion>
 
