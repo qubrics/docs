@@ -510,8 +510,11 @@
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/sendmux",
-      "github": "https://github.com/qubrics"
+      "x": "https://x.com/qubricsapp",
+      "github": "https://github.com/qubrics",
+      "linkedin": "https://www.linkedin.com/company/qubrics",
+      "youtube": "https://youtube.com/@qubrics",
+      "facebook": "https://facebook.com/qubrics"
     }
   },
   "fonts": {
