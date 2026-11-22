@@ -159,7 +159,7 @@ Exchange the durable read token only when a send operation needs it. The token e
 POST https://app.qubrics.com/agent-auth/oauth2/token HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
-grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange&subject_token=smx_agent_...&subject_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Aaccess_token&resource=https%3A%2F%2Fsmtp.sendmux.ai%2Fapi%2Fv1&scope=email.send
+grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange&subject_token=smx_agent_...&subject_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Aaccess_token&resource=https%3A%2F%2Fsmtp.qubrics.com%2Fapi%2Fv1&scope=email.send
 
 HTTP/1.1 200 OK
 Content-Type: application/json
