@@ -47,6 +47,10 @@ pip install qubrics-mailbox==3.0.0
 pip install qubrics-management==3.0.0
 ```
 
+```bash LangChain
+pip install langchain-qubrics==1.0.0
+```
+
 </CodeGroup>
 
 Use the `qubrics` imports shown below. The final old-name distributions install their replacements without providing the old import paths. See [package names and imports](/developer-tools/sdks/versioning-support#package-names-and-imports).
@@ -66,7 +70,7 @@ client = create_mailbox_client(
 
 The provider runs before each request. Your application owns secure token storage, expiry checks, and refresh coordination; see [OAuth for REST APIs](/developer-tools/oauth#refresh-and-disconnect). The same token option is available for Sending and Management clients.
 
-The `langchain-sendmux` wrapper accepts the same `access_token` option in `SendmuxToolkit(...)`. To use all three tools, request `mailbox.read` and `email.send` and select one mailbox at consent; the tools do not supply a mailbox selector.
+The `langchain-qubrics` wrapper accepts the same `access_token` option in `QubricsToolkit(...)`. To use all three tools, request `mailbox.read` and `email.send` and select one mailbox at consent; the tools do not supply a mailbox selector.
 
 ## Create a client
 
