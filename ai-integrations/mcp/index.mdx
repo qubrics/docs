@@ -5,6 +5,7 @@ keywords:
   [
     "MCP",
     "Model Context Protocol",
+    "qubrics-mcp",
     "sendmux-mcp",
     "AI agents",
     "Qubrics MCP",
@@ -20,7 +21,7 @@ Qubrics has two MCP connections. Use Doc Search MCP when you want an AI tool to 
 | Connection | Use it for | Server |
 | --- | --- | --- |
 | Doc Search MCP | Search Qubrics guides and API references. | `https://qubrics.com/docs/mcp` |
-| MCP | Use Management, Mailbox, and Sending tools. | `https://mcp.qubrics.com/mcp` or the local `sendmux-mcp` package |
+| MCP | Use Management, Mailbox, and Sending tools. | `https://mcp.qubrics.com/mcp` or the local `qubrics-mcp` Python package |
 
 <Info>
   MCP exposes a curated agent toolset, not every API endpoint. Use the
@@ -134,17 +135,17 @@ When you connect, Qubrics asks you to choose a team, product surfaces, and mailb
 Requires Node.js 22 or later. Run the npm bridge:
 
 ```bash
-npx -y sendmux-mcp
+npx -y sendmux-mcp@1.0.1
 ```
 
-The bridge connects stdio clients to the hosted server through browser OAuth. Tools follow your hosted grant.
+The bridge connects stdio clients to the legacy hosted server at `https://mcp.sendmux.ai/mcp` through browser OAuth. Tools follow your hosted grant. Run the command as shown. The bridge accepts no connection arguments.
 
 ```json
 {
   "mcpServers": {
     "qubrics": {
       "command": "npx",
-      "args": ["-y", "sendmux-mcp"]
+      "args": ["-y", "sendmux-mcp@1.0.1"]
     }
   }
 }
@@ -157,15 +158,15 @@ The bridge connects stdio clients to the hosted server through browser OAuth. To
 Install the local package from PyPI:
 
 ```bash
-pip install --upgrade sendmux-mcp
+pip install --upgrade qubrics-mcp==3.0.0
 ```
 
 Run one surface:
 
 ```bash
-QUBRICS_API_KEY=smx_mbx_... sendmux-mcp-mailbox
-QUBRICS_API_KEY=smx_root_... sendmux-mcp-management
-QUBRICS_API_KEY=smx_mbx_... sendmux-mcp-sending
+QUBRICS_API_KEY=smx_mbx_... qubrics-mcp-mailbox
+QUBRICS_API_KEY=smx_root_... qubrics-mcp-management
+QUBRICS_API_KEY=smx_mbx_... qubrics-mcp-sending
 ```
 
 Run all product surfaces:
@@ -175,7 +176,7 @@ QUBRICS_MCP_SURFACES=mailbox,management,sending \
 QUBRICS_MAILBOX_API_KEY=smx_mbx_... \
 QUBRICS_MANAGEMENT_API_KEY=smx_root_... \
 QUBRICS_SENDING_API_KEY=smx_mbx_... \
-sendmux-mcp
+qubrics-mcp
 ```
 
 The server validates key prefixes before starting. Management requires `smx_root_`. Sending accepts a send-capable `smx_mbx_` key or owner-approved Sending-resource `smx_agent_` token. Mailbox accepts an `smx_mbx_` key or a scoped `smx_agent_` token.
@@ -187,24 +188,26 @@ HTTP mode is useful when your MCP client connects to a server URL but you still 
 ```bash
 QUBRICS_API_KEY=smx_mbx_... \
 QUBRICS_MCP_HTTP_BEARER_TOKEN=local-mcp-token \
-sendmux-mcp-mailbox --transport http --host 127.0.0.1 --port 8765
+qubrics-mcp-mailbox --transport http --host 127.0.0.1 --port 8765
 ```
 
 The endpoint defaults to `/mcp`. `/health` returns the selected surfaces. HTTP mode requires `QUBRICS_MCP_HTTP_BEARER_TOKEN` unless you explicitly start it with `--allow-unauthenticated-http`.
 
 ## Configuration reference
 
+These settings apply to the local Python package.
+
 <AccordionGroup>
   <Accordion title="Environment variables">
     | Setting | Environment | Default |
     | --- | --- | --- |
-    | Tool surfaces | `QUBRICS_MCP_SURFACES` | Required for `sendmux-mcp` |
+    | Tool surfaces | `QUBRICS_MCP_SURFACES` | Required for `qubrics-mcp` |
     | API key fallback | `QUBRICS_API_KEY` | None |
     | Mailbox API key | `QUBRICS_MAILBOX_API_KEY` | None |
     | Management API key | `QUBRICS_MANAGEMENT_API_KEY` | None |
     | Sending API key | `QUBRICS_SENDING_API_KEY` | None |
-    | Management and Mailbox API base URL | `QUBRICS_APP_BASE_URL` | `https://app.sendmux.ai/api/v1` |
-    | Sending API base URL | `QUBRICS_SENDING_BASE_URL` | `https://smtp.sendmux.ai/api/v1` |
+    | Management and Mailbox API base URL | `QUBRICS_APP_BASE_URL` | `https://app.qubrics.com/api/v1` |
+    | Sending API base URL | `QUBRICS_SENDING_BASE_URL` | `https://smtp.qubrics.com/api/v1` |
     | Retry time budget, in seconds | `QUBRICS_MCP_RETRY_MAX_ELAPSED_SECONDS` | Unset |
     | Transport | `QUBRICS_MCP_TRANSPORT` | `stdio` |
     | HTTP host | `QUBRICS_MCP_HOST` | `127.0.0.1` |
@@ -220,7 +223,7 @@ The endpoint defaults to `/mcp`. `/health` returns the selected surfaces. HTTP m
     QUBRICS_MAILBOX_API_KEY="$QUBRICS_MBX_KEY" \
     QUBRICS_MANAGEMENT_API_KEY="$QUBRICS_ROOT_KEY" \
     QUBRICS_SENDING_API_KEY="$QUBRICS_SENDING_KEY" \
-    sendmux-mcp
+    qubrics-mcp
     ```
   </Accordion>
 </AccordionGroup>
@@ -228,6 +231,8 @@ The endpoint defaults to `/mcp`. `/health` returns the selected surfaces. HTTP m
 ## Compatibility names
 
 Use the Qubrics names in new integrations. Existing integrations keep working.
+
+The PyPI `sendmux-mcp` 3.0.0 compatibility package installs `qubrics-mcp` and retains the legacy `sendmux-mcp` commands. Use `qubrics.mcp` for Python imports.
 
 For supported environment settings, the SDKs, CLI and MCP server read `QUBRICS_*` before the matching `SENDMUX_*` name. You can update a configuration while keeping older variables in place, including `SENDMUX_API_KEY`, `SENDMUX_ACCESS_TOKEN`, `SENDMUX_BASE_URL`, `SENDMUX_PROFILE`, `SENDMUX_APP_BASE_URL`, `SENDMUX_SENDING_BASE_URL`, `SENDMUX_MAILBOX_API_KEY`, `SENDMUX_MANAGEMENT_API_KEY` and `SENDMUX_SENDING_API_KEY`. Each `QUBRICS_MCP_*` setting in the configuration reference also accepts its matching `SENDMUX_MCP_*` name.
 

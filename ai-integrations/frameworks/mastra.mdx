@@ -8,6 +8,7 @@ keywords:
     "MCPClient",
     "Mastra agent email",
     "sendmux-mcp",
+    "qubrics-mcp",
   ]
 ---
 
@@ -37,7 +38,7 @@ npm install @mastra/mcp
 ```
 
 ```bash Qubrics MCP
-pip install --upgrade sendmux-mcp
+pip install --upgrade qubrics-mcp==3.0.0
 ```
 
 </CodeGroup>
@@ -53,7 +54,7 @@ export const mcpClient = new MCPClient({
   id: "qubrics",
   servers: {
     qubrics: {
-      command: "sendmux-mcp-mailbox",
+      command: "qubrics-mcp-mailbox",
       args: [],
       env: {
         QUBRICS_API_KEY: process.env.QUBRICS_MAILBOX_API_KEY!,
@@ -63,11 +64,11 @@ export const mcpClient = new MCPClient({
 });
 ```
 
-Run more than one surface in a single server by using the `sendmux-mcp` entry point instead:
+Run more than one surface in a single server by using the `qubrics-mcp` entry point instead:
 
 ```typescript
 qubrics: {
-  command: "sendmux-mcp",
+  command: "qubrics-mcp",
   args: [],
   env: {
     QUBRICS_MCP_SURFACES: "mailbox,sending",
@@ -84,7 +85,7 @@ Use this when your Mastra service runs somewhere it cannot spawn a process. Star
 ```bash
 QUBRICS_API_KEY=smx_mbx_... \
 QUBRICS_MCP_HTTP_BEARER_TOKEN=local-mcp-token \
-sendmux-mcp-mailbox --transport http --host 127.0.0.1 --port 8765
+qubrics-mcp-mailbox --transport http --host 127.0.0.1 --port 8765
 ```
 
 Then point `MCPClient` at it and send the bearer token on every request:
@@ -137,7 +138,7 @@ import { MCPClient } from "@mastra/mcp";
 const mcp = new MCPClient({
   servers: {
     qubrics: {
-      command: "sendmux-mcp-mailbox",
+      command: "qubrics-mcp-mailbox",
       args: [],
       env: { QUBRICS_API_KEY: tenantMailboxKey },
     },
@@ -163,7 +164,7 @@ A durable `smx_agent_` token includes `mailbox.read` and `email.receive`, not `e
 
 <AccordionGroup>
   <Accordion title="No tools appear on the agent">
-    Confirm the surfaces the server started with. `sendmux-mcp` requires
+    Confirm the surfaces the server started with. `qubrics-mcp` requires
     `QUBRICS_MCP_SURFACES`; the single-surface entry points do not.
   </Accordion>
 

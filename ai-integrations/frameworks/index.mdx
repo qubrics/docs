@@ -12,6 +12,7 @@ keywords:
     "OpenAI Agents SDK",
     "Google ADK",
     "sendmux-mcp",
+    "qubrics-mcp",
   ]
 ---
 
@@ -34,7 +35,7 @@ Framework agents run without a browser, so pick the connection your runtime can 
 
 | Connection | Use it when | How the key travels |
 | --- | --- | --- |
-| Local stdio | Your process can launch `sendmux-mcp` on the same machine. | Process environment |
+| Local stdio | Your process can launch `qubrics-mcp` on the same machine. | Process environment |
 | Private HTTP | Your agent runs elsewhere, or your framework only accepts a URL. | `Authorization` header |
 | Hosted OAuth | Your framework can complete a browser MCP OAuth flow or hold an OAuth client provider. | Qubrics-issued token |
 

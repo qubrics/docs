@@ -36,7 +36,7 @@ codex mcp login qubrics
 Install the local package once:
 
 ```bash
-pip install --upgrade sendmux-mcp
+pip install --upgrade qubrics-mcp==3.0.0
 ```
 
 Use a mailbox key for Mailbox or Sending:
@@ -55,7 +55,7 @@ Run Codex with `QUBRICS_API_KEY` already set, then use `env_vars` so the value s
 
 ```toml
 [mcp_servers.qubrics_mailbox]
-command = "sendmux-mcp-mailbox"
+command = "qubrics-mcp-mailbox"
 env_vars = ["QUBRICS_API_KEY"]
 ```
 
@@ -67,7 +67,7 @@ Start a local HTTP MCP server:
 export QUBRICS_MCP_HTTP_BEARER_TOKEN=local-mcp-token
 
 QUBRICS_API_KEY=smx_mbx_... \
-sendmux-mcp-mailbox --transport http --host 127.0.0.1 --port 8765
+qubrics-mcp-mailbox --transport http --host 127.0.0.1 --port 8765
 ```
 
 Use `http://127.0.0.1:8765/mcp` as the client URL.

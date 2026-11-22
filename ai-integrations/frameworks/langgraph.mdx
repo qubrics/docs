@@ -8,6 +8,7 @@ keywords:
     "langchain-mcp-adapters",
     "MultiServerMCPClient",
     "sendmux-mcp",
+    "qubrics-mcp",
   ]
 ---
 
@@ -31,7 +32,7 @@ Use this page to load Qubrics tools into a <a href="https://langchain-ai.github.
 
 ```bash
 pip install langchain-mcp-adapters langgraph
-pip install --upgrade sendmux-mcp
+pip install --upgrade qubrics-mcp==3.0.0
 ```
 
 ## Connect over local stdio
@@ -45,7 +46,7 @@ client = MultiServerMCPClient(
     {
         "qubrics": {
             "transport": "stdio",
-            "command": "sendmux-mcp-mailbox",
+            "command": "qubrics-mcp-mailbox",
             "args": [],
             "env": {"QUBRICS_API_KEY": "${QUBRICS_MAILBOX_API_KEY}"},
         }
@@ -53,12 +54,12 @@ client = MultiServerMCPClient(
 )
 ```
 
-Run more than one surface by switching to the `sendmux-mcp` entry point and naming the surfaces:
+Run more than one surface by switching to the `qubrics-mcp` entry point and naming the surfaces:
 
 ```python
 "qubrics": {
     "transport": "stdio",
-    "command": "sendmux-mcp",
+    "command": "qubrics-mcp",
     "args": [],
     "env": {
         "QUBRICS_MCP_SURFACES": "mailbox,sending",
@@ -75,7 +76,7 @@ Use this when your graph runs somewhere it cannot spawn a process. Start the ser
 ```bash
 QUBRICS_API_KEY=smx_mbx_... \
 QUBRICS_MCP_HTTP_BEARER_TOKEN=local-mcp-token \
-sendmux-mcp-mailbox --transport http --host 127.0.0.1 --port 8765
+qubrics-mcp-mailbox --transport http --host 127.0.0.1 --port 8765
 ```
 
 Then connect with the streamable HTTP transport and send the bearer token:
@@ -143,7 +144,7 @@ def client_for(mailbox_key: str) -> MultiServerMCPClient:
         {
             "qubrics": {
                 "transport": "stdio",
-                "command": "sendmux-mcp-mailbox",
+                "command": "qubrics-mcp-mailbox",
                 "args": [],
                 "env": {"QUBRICS_API_KEY": mailbox_key},
             }
@@ -159,7 +160,7 @@ A durable `smx_agent_` token includes `mailbox.read` and `email.receive`, not `e
 
 <AccordionGroup>
   <Accordion title="get_tools returns an empty list">
-    Confirm the surfaces the server started with. `sendmux-mcp` requires
+    Confirm the surfaces the server started with. `qubrics-mcp` requires
     `QUBRICS_MCP_SURFACES`; the single-surface entry points do not.
   </Accordion>
 
