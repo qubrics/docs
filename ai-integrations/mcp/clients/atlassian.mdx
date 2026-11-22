@@ -43,7 +43,7 @@ See Atlassian's <a href="https://support.atlassian.com/organization-administrati
 
 ## Troubleshoot `invalid_target`
 
-OAuth keeps four boundaries separate: a registration can restrict an exact resource, an authorisation request asks for a resource, the approved grant binds that resource, and the access token carries the same audience. Omitting `resource` during DCR creates no registration restriction. If a later authorisation, code-exchange, or refresh request omits the resource, only that later REST request defaults to `https://sendmux.ai/api`.
+OAuth keeps four boundaries separate: a registration can restrict an exact resource, an authorisation request asks for a resource, the approved grant binds that resource, and the access token carries the same audience. Omitting `resource` during DCR creates no registration restriction. If a later authorisation, code-exchange, or refresh request omits the resource, only that later REST request defaults to `https://qubrics.com/api`.
 
 For hosted MCP, `invalid_target` means the requested resource does not match an explicitly restricted registration or is not an exact supported resource. Confirm **MCP URL** is exactly `https://mcp.qubrics.com/mcp` and **Authentication** is **OAuth**. Do not reuse a REST or A2A registration, broaden an existing restriction, weaken resource checks, change scopes, or uninstall and re-add the server as a workaround.
 
