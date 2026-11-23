@@ -136,7 +136,7 @@ function verifyRegistrySnapshot({ publication, snapshot }) {
     assert.deepEqual([entries[0].identifier, entries[0].version, entries[0].transport?.type], [identity, version, "stdio"], `Registry ${type === "pypi" ? "Python" : "npm"} binding must match verified snapshot`);
     assert.ok(semver.test(version), `Registry ${type} version must be valid SemVer 2.0.0`);
   }
-  assert.deepEqual(server.remotes, [{ type: "streamable-http", url: "https://mcp.sendmux.ai/mcp" }], "Registry must retain its verified legacy remote");
+  assert.deepEqual(server.remotes, [{ type: "streamable-http", url: "https://mcp.qubrics.com/mcp" }, { type: "streamable-http", url: "https://mcp.sendmux.ai/mcp" }], "Registry must retain its verified canonical and legacy remotes");
   assert.ok(typeof server.description === "string" && server.description.trim().length > 0 && server.description.length <= 100, "Registry description must contain 1 to 100 characters");
 }
 
