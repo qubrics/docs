@@ -4,6 +4,17 @@ description: "New features, improvements, and fixes across the Qubrics platform.
 rss: true
 ---
 
+<Update label="23 November 2026" tags={["Improvements"]} rss={{ title: "Qubrics domain verification record" }}>
+  ## Improvements
+
+New domains verify ownership with a `_qubrics` TXT record whose value starts with `qubrics-verify=`. The domain page shows the exact record to add.
+
+Domains you added before this change keep their `_sendmux` record, and it continues to verify, including when you upgrade a sending-only domain to send and receive.
+
+Choices you make on qubrics.com about analytics cookies now carry over when you sign in to the Qubrics app.
+
+</Update>
+
 <Update label="20 November 2026" tags={["Bug fixes"]} rss={{ title: "Qubrics contacts and setup examples" }}>
   ## Bug fixes
 
