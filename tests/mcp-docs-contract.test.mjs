@@ -65,11 +65,11 @@ test("released Python facts stay independent of Registry bindings and hosted vis
   const sdk = fixture(t, "publications");
   const result = await checkContract({ sdkDir: sdk.root, pin: sdk.pin, publications: published });
   assert.equal(result.projection.identity, "qubrics-mcp");
-  assert.equal(result.projection.version, "3.0.0");
-  assert.equal(result.projection.npmVersion, "1.0.1");
-  assert.equal(result.projection.registryVersion, "2.2.0");
-  assert.equal(result.projection.registryPythonVersion, "2.2.0");
-  assert.equal(result.projection.registryNpmVersion, "1.0.0");
+  assert.equal(result.projection.version, "3.0.1");
+  assert.equal(result.projection.npmVersion, "1.0.2");
+  assert.equal(result.projection.registryVersion, "3.0.1");
+  assert.equal(result.projection.registryPythonVersion, "3.0.1");
+  assert.equal(result.projection.registryNpmVersion, "1.0.2");
   assert.equal(result.projection.resource, "https://mcp.qubrics.com/mcp");
   assert.equal(result.projection.toolCount, 130);
   const snippet = renderSnippet(result.projection);
@@ -101,7 +101,7 @@ test("published npm releases stay independent of PyPI and candidate Registry met
 test("rejects unpublished or mismatched package facts at the public contract seam", async (t) => {
   for (const [label, mutate, error] of [
     ["unpublished-python", (root) => { coherentVersionChange(root); }, /published Python version/],
-    ["unpublished-npm", (root) => { const npm = readJson(join(root, owned[4])); npm.version = "1.0.2"; writeJson(join(root, owned[4]), npm); }, /published npm version/],
+    ["unpublished-npm", (root) => { const npm = readJson(join(root, owned[4])); const version = npm.version.split(".").map(Number); version[2] += 1; npm.version = version.join("."); writeJson(join(root, owned[4]), npm); }, /published npm version/],
     ["python-identity", (_root, facts) => { facts.python.identity = "sendmux-mcp"; }, /published Python identity/],
     ["npm-release-url", (_root, facts) => { facts.npm.sourceUrl = "https://registry.npmjs.org/qubrics-mcp/1.0.1"; }, /npm sourceUrl/],
     ["python-release-url", (_root, facts) => { facts.python.sourceUrl = "https://pypi.org/pypi/qubrics-mcp/2.2.0/json"; }, /Python sourceUrl/],
@@ -117,7 +117,9 @@ test("rejects unpublished or mismatched package facts at the public contract sea
 test("rejects tampered Registry snapshots and unqualified Registry bindings", async (t) => {
   for (const [label, mutate, rehash, error] of [
     ["tampered-bytes", (record) => { record.server.packages[0].version = "1.0.1"; }, false, /Registry snapshot SHA256/],
-    ["wrong-binding", (record) => { record.server.packages[0].version = "1.0.1"; }, true, /Registry npm binding/],
+    ["wrong-binding", (record) => { record.server.packages.find((entry) => entry.registryType === "npm").version = "1.0.1"; }, true, /Registry npm binding/],
+    ["missing-canonical-remote", (record) => { record.server.remotes = record.server.remotes.filter((entry) => entry.url !== "https://mcp.qubrics.com/mcp"); }, true, /Registry.*remote/],
+    ["missing-legacy-remote", (record) => { record.server.remotes = record.server.remotes.filter((entry) => entry.url !== "https://mcp.sendmux.ai/mcp"); }, true, /Registry.*remote/],
     ["inactive-record", (record) => { record._meta["io.modelcontextprotocol.registry/official"].status = "deleted"; }, true, /Registry status must be active/],
     ["not-latest", (record) => { record._meta["io.modelcontextprotocol.registry/official"].isLatest = false; }, true, /Registry record must be latest/],
   ]) {

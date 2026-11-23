@@ -1,27 +1,27 @@
 {
-  "verifiedAt": "2026-11-22T06:57:30Z",
+  "verifiedAt": "2026-11-23T01:29:06Z",
   "python": {
     "identity": "qubrics-mcp",
-    "version": "3.0.0",
-    "sourceUrl": "https://pypi.org/pypi/qubrics-mcp/3.0.0/json",
+    "version": "3.0.1",
+    "sourceUrl": "https://pypi.org/pypi/qubrics-mcp/3.0.1/json",
     "pointerIdentity": "sendmux-mcp",
     "pointerVersion": "3.0.0",
     "pointerSourceUrl": "https://pypi.org/pypi/sendmux-mcp/3.0.0/json"
   },
   "npm": {
     "identity": "sendmux-mcp",
-    "version": "1.0.1",
-    "sourceUrl": "https://registry.npmjs.org/sendmux-mcp/1.0.1"
+    "version": "1.0.2",
+    "sourceUrl": "https://registry.npmjs.org/sendmux-mcp/1.0.2"
   },
   "registry": {
-    "identity": "io.github.Sendmux/sendmux-mcp",
-    "version": "2.2.0",
-    "sourceUrl": "https://registry.modelcontextprotocol.io/v0.1/servers/io.github.Sendmux%2Fsendmux-mcp/versions/2.2.0",
-    "snapshotSha256": "d4c81d24a18cf20024c1021b1a74023773c80e558902a3c8893df74cd6331e12",
-    "pythonIdentity": "sendmux-mcp",
-    "pythonVersion": "2.2.0",
+    "identity": "io.github.qubrics/qubrics-mcp",
+    "version": "3.0.1",
+    "sourceUrl": "https://registry.modelcontextprotocol.io/v0.1/servers/io.github.qubrics%2Fqubrics-mcp/versions/3.0.1",
+    "snapshotSha256": "15ffe0c3c667e2b14f04dff98e6e4b15d74b172b5b2a93177fed820ed424b7bd",
+    "pythonIdentity": "qubrics-mcp",
+    "pythonVersion": "3.0.1",
     "npmIdentity": "sendmux-mcp",
-    "npmVersion": "1.0.0"
+    "npmVersion": "1.0.2"
   },
   "hosted": {
     "resource": "https://mcp.qubrics.com/mcp",
