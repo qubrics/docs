@@ -251,7 +251,7 @@ Each Qubrics header has a retained header with the same value. Requests accept e
 
 MCP tools add `qubrics_` before their existing names, so `qubrics_mailbox_list_granted_mailboxes` and `mailbox_list_granted_mailboxes` call the same handler and return the same result, as do the corresponding `management_*` and `sending_*` tool names.
 
-New mail webhook event data includes both `qubrics_message_id` and `sendmux_message_id` with the same value, which can be null. Calendar events use a separate payload without these fields. Older retained payloads and deliveries queued before this release can contain only `sendmux_message_id`. All compatibility names remain supported indefinitely.
+New mail webhook event data includes both `qubrics_message_id` and `sendmux_message_id` with the same value, which can be null. Older retained payloads and deliveries queued before this release can contain only `sendmux_message_id`. All compatibility names remain supported indefinitely.
 
 ## Tool discovery
 
